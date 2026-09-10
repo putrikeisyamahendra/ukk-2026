@@ -7,7 +7,7 @@
 <table class="table table-striped table-hover">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>No</th>
             <th>Kode Kategori</th>
             <th>Nama Kategori</th>
             <th>Keterangan</th>
@@ -18,7 +18,7 @@
         @php $no = 1; @endphp
         @foreach ($kategori as $item)
         <tr>
-            <td>{{ $item->id_kategori }}</td>
+            <td>{{ $no++ }}</td>
             <td>{{ $item->kode_kategori }}</td>
             <td>{{ $item->nama_kategori }}</td>
             <td>{{ $item->keterangan }}</td>
