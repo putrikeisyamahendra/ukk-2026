@@ -33,17 +33,28 @@
                 <li class="nav-item">
                     <a class="nav-link {{ is_route('home') ? 'active' : '' }}" href="{{ route('home') }}">Beranda</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ is_route('docs') ? 'active' : '' }}" href="{{ route('docs') }}">Docs</a>
-                </li>
                 @php
                     $currentUser = \App\Models\User::current();
                 @endphp
                 @if ($currentUser)
+
                     <li class="nav-item">
                         <a class="nav-link {{ is_route('admin.dashboard', 'dashboard') ? 'active' : '' }}"
                            href="{{ $currentUser->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}">Dashboard</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ is_route('kategori') ? 'active' : '' }}" href="{{ route('kategori.index') }}">Kategori</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ is_route('alat.index') ? 'active' : '' }}" href="{{ route('alat.index') }}">Daftar Alat</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ is_route('peminjaman.index') ?  'active' : '' }}" href="{{ route('peminjaman.index') }}">Peminjaman</a>
+                    </li>
+                
                     <li class="nav-item">
                         <form method="POST" action="{{ route('logout') }}" class="d-lg-inline">
                             @csrf

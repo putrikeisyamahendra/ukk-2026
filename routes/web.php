@@ -7,6 +7,8 @@ use App\Controllers\Core\DocsController;
 use App\Controllers\Core\RoleController;
 use App\Controllers\Core\UserController;
 use App\Controllers\KategoriController;
+use App\Controllers\AlatController;
+use App\Controllers\PeminjamanController;
 use Sakuci\Route;
 
 /*
@@ -53,16 +55,31 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
-    
     Route::get('/database/export', [DatabaseController::class, 'export'])->name('admin.database.export');
+    
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
     Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
     Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
-   
     Route::get('/kategori/edit/{id_kategori}', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('/kategori/update/{id_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/kategori/destroy/{id_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-});
+    
+    Route::get('/alat', [alatController::class, 'index'])->name('alat.index');
+    Route::get('/alat/create', [alatController::class, 'create'])->name('alat.create');
+    Route::post('/alat/store', [alatController::class, 'store'])->name('alat.store');
+    Route::get('/alat/{id_alat}/edit', [alatController::class, 'edit'] )->name('alat.edit');
+    Route::put('/alat/{id_alat}', [alatController::class, 'update'] )->name('alat.update');
+    Route::delete('/alat/{id_alat}', [alatController::class, 'delete'] )->name('alat.delete');
+
+    Route::get('/peminjaman', [peminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::get('/peminjaman/create', [peminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::post('/peminjaman/store', [peminjamanController::class, 'store'])->name('peminjaman.store');
+    Route::get('/peminjaman/{id_peminjaman}/edit', [peminjamanController::class, 'edit'])->name('peminjaman.edit');
+    Route::put('/peminjaman/{id_peminjaman}', [peminjamanController::class, 'update'])->name('peminjaman.update');
+    Route::delete('/peminjaman/{id_peminjaman}', [peminjamanController::class, 'delete'])->name('peminjaman.delete');
+
+    });
+
 /*
 |--------------------------------------------------------------------------
 | Route role dinamis
@@ -78,6 +95,11 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'siswa'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('siswa.dashboard');
 });
 // @role:siswa:end
+// @role:peminjam:start
+Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('peminjam.dashboard');
+});
+// @role:peminjam:end
 // @generated-roles:end
 
 /*

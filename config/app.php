@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'name'     => env('APP_NAME', 'Sakuci'),
+    'name'     => env('APP_NAME', 'Sistem Peminjaman'),
 
     // Saat true, halaman error menampilkan detail lengkap. Matikan di produksi.
     'debug'    => env('APP_DEBUG', true),
@@ -31,6 +31,7 @@ return [
     ],
 
     'middleware' => [
+        'peminjam' => App\Middleware\PeminjamOnly::class,
         'siswa' => App\Middleware\SiswaOnly::class,
         'auth'  => App\Middleware\Authenticate::class,
         'guest' => App\Middleware\RedirectIfAuthenticated::class,
