@@ -9,6 +9,7 @@ use App\Controllers\Core\UserController;
 use App\Controllers\KategoriController;
 use App\Controllers\AlatController;
 use App\Controllers\PeminjamanController;
+use App\Controllers\PengembalianController;
 use Sakuci\Route;
 
 /*
@@ -77,6 +78,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/peminjaman/{id_peminjaman}/edit', [peminjamanController::class, 'edit'])->name('peminjaman.edit');
     Route::put('/peminjaman/{id_peminjaman}', [peminjamanController::class, 'update'])->name('peminjaman.update');
     Route::delete('/peminjaman/{id_peminjaman}', [peminjamanController::class, 'delete'])->name('peminjaman.delete');
+
+    Route::get('/pengembalian', [pengembalianController::class, 'index'])->name('pengembalian.index');
+    Route::get('/pengembalian/create', [pengembalianController::class, 'create'])->name('pengembalian.create');
+    Route::post('/pengembalian/store', [pengembalianController::class, 'store'])->name('pengembalian.store');
+    Route::get('/pengembalian/{id_pengembalian}/edit', [pengembalianController::class, 'edit'])->name('pengembalian.edit');
+    Route::put('/pengembalian/{id_pengembalian}', [pengembalianController::class, 'update'])->name('pengembalian.update');
+    Route::delete('/pengembalian/{id_pengembalian}', [pengembalianController::class, 'delete'])->name('pengembalian.delete');
 
     });
 

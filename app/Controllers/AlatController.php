@@ -11,7 +11,16 @@ class alatController extends Controller
 {
     public function index(Request $request)
     {
-        $datal = alat::orderBy('id_alat', 'desc')->paginate(4);
+        $query = Alat::query();
+
+    if ($request->search) {
+        $query->where(
+            'nama_alat',
+            'like',
+            '%' . $request->search . '%'
+        );
+    }
+        $datal = $query->orderBy('id_alat', 'desc')->paginate(4);
         $kategori = Kategori::all();
         return view('alat.index', compact('datal', 'kategori'));
     }

@@ -8,11 +8,26 @@ use App\Models\Kategori;
 
 class KategoriController extends Controller
 {
-    public function index(Request $request)
-    {
-        $data = Kategori::orderBy('id_kategori', 'desc')->paginate(4);
-       return view('kategori.index', compact('data'));
+   public function index(Request $request)
+{
+    $query = Kategori::query();
+
+    if ($request->search) {
+        $query->where(
+            'nama_kategori',
+            'like',
+            '%' . $request->search . '%'
+        );
     }
+
+    $data = $query
+        ->orderBy('id_kategori', 'desc')
+        ->paginate(4);
+
+    return view('kategori.index', compact('data'));
+}
+
+
     public function create(Request $request)
     {
         return view('kategori.create');
