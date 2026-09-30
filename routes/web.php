@@ -106,6 +106,8 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'siswa'], function () {
 // @role:peminjam:start
 Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('peminjam.dashboard');
+
+
 });
 // @role:peminjam:end
 // @generated-roles:end

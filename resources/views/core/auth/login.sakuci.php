@@ -217,8 +217,7 @@
 
 
 /* =========================================================
-   BUTTON KUNING
-   SAMA SEPERTI TOMBOL DAFTAR
+   BUTTON LOGIN — BIRU
    ========================================================= */
 
 .btn-volley-yellow {
@@ -228,20 +227,36 @@
 
     font-weight: 700;
 
-    color: #102a43;
+    color: #fff;
 
     background: linear-gradient(
         135deg,
-        #ffc107,
-        #ffda44
+        #0d6efd,
+        #084298
     );
 
     box-shadow:
-        0 7px 18px rgba(255, 193, 7, 0.22);
+        0 7px 18px rgba(13, 110, 253, 0.22);
 
     transition:
         all 0.3s ease;
 }
+
+.btn-volley-yellow:hover {
+    color: #fff;
+
+    transform: translateY(-3px);
+
+    background: linear-gradient(
+        135deg,
+        #0b5ed7,
+        #06357a
+    );
+
+    box-shadow:
+        0 11px 25px rgba(13, 110, 253, 0.32);
+}
+
 
 .btn-volley-yellow:hover {
     color: #102a43;
