@@ -47,7 +47,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.at
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-    Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
+Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
 
     Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/roles', [RoleController::class, 'store'])->name('admin.roles.store');
@@ -98,17 +98,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 */
 // @generated-roles:start
 
-// @role:siswa:start
-Route::group(['prefix' => 'siswa', 'middleware' => 'siswa'], function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('siswa.dashboard');
-});
 // @role:siswa:end
 // @role:peminjam:start
 Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('peminjam.dashboard');
-
-
+    Route::get('/kategori', [KategoriController::class, 'daftar'])->name('peminjam.kategori');
 });
+
 // @role:peminjam:end
 // @generated-roles:end
 
