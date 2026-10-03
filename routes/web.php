@@ -78,6 +78,8 @@ Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
     Route::get('/peminjaman/{id_peminjaman}/edit', [peminjamanController::class, 'edit'])->name('peminjaman.edit');
     Route::put('/peminjaman/{id_peminjaman}', [peminjamanController::class, 'update'])->name('peminjaman.update');
     Route::delete('/peminjaman/{id_peminjaman}', [peminjamanController::class, 'delete'])->name('peminjaman.delete');
+    Route::put('/peminjaman/{id_peminjaman}/setujui', [peminjamanController::class, 'setujui'])->name('peminjaman.setujui');
+    Route::put('/peminjaman/{id_peminjaman}/tolak', [peminjamanController::class, 'tolak'])->name('peminjaman.tolak');
 
     Route::get('/pengembalian', [pengembalianController::class, 'index'])->name('pengembalian.index');
     Route::get('/pengembalian/create', [pengembalianController::class, 'create'])->name('pengembalian.create');
@@ -96,16 +98,25 @@ Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
 | menambah, mengganti nama, atau menghapus role lewat /admin/roles.
 | Jangan diedit manual -- perubahan bisa tertimpa.
 */
+
 // @generated-roles:start
 
-// @role:siswa:end
 // @role:peminjam:start
 Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
-    Route::get('/kategori', [KategoriController::class, 'daftar'])->name('peminjam.kategori');
+    Route::get('/', [DashboardController::class, 'peminjam'])->name('peminjam.dashboard');
 });
-
 // @role:peminjam:end
 // @generated-roles:end
+
+Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
+    Route::get('/kategori', [KategoriController::class, 'daftar'])->name('peminjam.kategori');
+    Route::get('/daftar-alat', [AlatController::class, 'katalog'])->name('alat.katalog');
+    Route::get('/ajukan', [PeminjamanController::class, 'ajukan'])->name('peminjam.ajukan');
+    Route::post('/ajukan', [PeminjamanController::class, 'kirim'])->name('peminjam.kirim');
+    Route::get('/riwayat', [PeminjamanController::class, 'riwayat'])->name('peminjam.riwayat');
+    Route::get('/pengembalian', [PengembalianController::class, 'pengembalian'])->name('peminjam.pengembalian');
+    Route::get('/beranda', [DashboardController::class, 'peminjam'])->name('peminjam.beranda');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -125,3 +136,30 @@ Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
 | });
 */
 
+Route::get('/isi-stok', function () {
+    $hasil = [];
+
+    try {
+        $kolom = \Sakuci\Database\Connection::run('SHOW COLUMNS FROM alat')->fetchAll();
+        $nama = [];
+        foreach ($kolom as $k) {
+            $k = (array) $k;
+            $nama[] = $k['Field'] ?? reset($k);
+        }
+        $hasil[] = 'Kolom di tabel alat: ' . implode(', ', $nama);
+
+        if (! in_array('stok', $nama)) {
+            \Sakuci\Database\Connection::run('ALTER TABLE alat ADD COLUMN stok INT NOT NULL DEFAULT 0');
+            $hasil[] = 'Kolom stok BELUM ada, sekarang sudah ditambahkan.';
+        } else {
+            $hasil[] = 'Kolom stok sudah ada.';
+        }
+
+        \Sakuci\Database\Connection::run('UPDATE alat SET stok = 50');
+        $hasil[] = 'Selesai, semua stok jadi 50.';
+    } catch (\Throwable $e) {
+        $hasil[] = 'Gagal: ' . $e->getMessage();
+    }
+
+    return implode('<br>', $hasil);
+});

@@ -18,35 +18,50 @@ class PengembalianController extends Controller
     public function create(Request $request)
     {
         // Menampilkan peminjaman yang belum dikembalikan
-        $peminjaman = Peminjaman::where('status', '!=', 'Dikembalikan')->get();
+        $peminjaman = Peminjaman::where('status', 'Disetujui')->get();
         return view('pengembalian.create', compact('peminjaman'));
     }
 
-    public function store(Request $request)
+        public function store(Request $request)
     {
         $validatedData = $request->validate([
             'id_peminjaman'        => 'required|integer',
             'tanggal_pengembalian' => 'required|date',
-            'terlambat_hari'       => 'nullable|integer|min:0',
-            'denda'                => 'nullable|integer|min:0',
             'kondisi_barang'       => 'nullable|string|max:100',
             'catatan'              => 'nullable|string',
         ]);
 
-        $validatedData['terlambat_hari'] = $validatedData['terlambat_hari'] ?? 0;
-        $validatedData['denda']          = $validatedData['denda'] ?? 0;
+        $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
+
+        // Hanya peminjaman yang berstatus Disetujui yang bisa dikembalikan
+        if ($peminjaman->status !== 'Disetujui') {
+            return redirect(route('pengembalian.index'))
+                ->with('error', 'Peminjaman ini tidak bisa diproses pengembaliannya.');
+        }
+
+        // Hitung keterlambatan dan denda otomatis
+        $tarifPerHari = 5000; // ubah sesuai tarif yang kamu mau
+        $rencana = strtotime($peminjaman->tanggal_kembali);
+        $aktual  = strtotime($validatedData['tanggal_pengembalian']);
+
+        $terlambat = $rencana ? max(0, (int) floor(($aktual - $rencana) / 86400)) : 0;
+        $denda     = $terlambat * $tarifPerHari;
+
+        $validatedData['terlambat_hari'] = $terlambat;
+        $validatedData['denda']          = $denda;
         $validatedData['kondisi_barang'] = $validatedData['kondisi_barang'] ?? 'Baik';
 
-        // Simpan data pengembalian
         Pengembalian::create($validatedData);
 
-        // Update status peminjaman jadi 'Dikembalikan'
-        $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
-        $peminjaman->update(['status' => 'Dikembalikan']);
+        // Kembalikan stok
+        $alat = \App\Models\Alat::findOrFail($peminjaman->id_alat);
+        $alat->update(['stok' => (int) $alat->stok + (int) $peminjaman->jumlah]);
 
-        return redirect(route('pengembalian.index'))->with('success', 'Data pengembalian berhasil ditambahkan.');
+        // Tandai selesai dan simpan denda di data peminjaman
+        $peminjaman->update(['status' => 'Dikembalikan', 'denda' => $denda]);
+
+        return redirect(route('pengembalian.index'))->with('success', 'Pengembalian dicatat. Denda: Rp ' . number_format($denda, 0, ',', '.'));
     }
-
     public function edit(Request $request, $id_pengembalian)
     {
         $data = Pengembalian::findOrFail($id_pengembalian);
@@ -77,5 +92,21 @@ class PengembalianController extends Controller
         $pengembalian->delete();
 
         return redirect()->route('pengembalian.index')->with('success', 'Data pengembalian berhasil dihapus.');
+    }
+        // Halaman pengembalian milik peminjam (hanya lihat)
+        // Halaman pengembalian milik peminjam (hanya lihat)
+    
+    public function pengembalian(Request $request)
+    {
+        $me = \App\Models\User::current();
+
+        $data = Peminjaman::where('id_user', $me->id)
+            ->whereIn('status', ['Disetujui', 'Dikembalikan'])
+            ->orderBy('id_peminjaman', 'desc')
+            ->get();
+
+        $alat = \App\Models\Alat::all();
+
+        return view('pengembalian.pengembalian', compact('data', 'alat'));
     }
 }

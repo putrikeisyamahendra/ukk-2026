@@ -359,18 +359,7 @@ html:has(.login-hero) body {
                     @enderror
 
                 </div>
-
-
-                {{-- AKUN DEMO --}}
-
-                <p class="text-secondary small mb-3">
-                    Akun demo:
-                    <strong>admin</strong>
-                    &mdash;
-                    password
-                    <code class="inline">rahasia123</code>
-                </p>
-
+                
 
                 {{-- TOMBOL LOGIN --}}
 

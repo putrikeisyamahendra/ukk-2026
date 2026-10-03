@@ -1,8 +1,4 @@
 <style>
-/* =========================================================
-   VARIABEL TEMA (hanya dikendalikan checkbox #themeToggle)
-   ========================================================= */
-
 :root:not(:has(#themeToggle:checked)),
 :root:not(:has(#themeToggle:checked)) [data-bs-theme] {
     color-scheme: light;
@@ -42,11 +38,6 @@ body {
     background-color: var(--bs-body-bg);
 }
 
-
-/* =========================================================
-   SIDEBAR
-   ========================================================= */
-
 .sidebar-toggle,
 .theme-checkbox {
     display: none;
@@ -58,6 +49,9 @@ body {
     left: 0;
     width: 260px;
     height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    scrollbar-width: none;
     padding: 22px 15px;
     display: flex;
     flex-direction: column;
@@ -67,6 +61,10 @@ body {
     transform: translateX(0);
     transition: transform .3s ease;
     box-shadow: 4px 0 20px rgba(13, 110, 253, .08);
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
 }
 
 .sidebar-toggle:checked ~ .sidebar {
@@ -86,6 +84,14 @@ body {
 
 .sidebar-brand:hover {
     color: #17324d;
+}
+
+.sidebar-label {
+    padding: 0 14px 8px;
+    color: #59738d;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
 }
 
 .sidebar-menu {
@@ -145,6 +151,36 @@ body {
     font-size: 13px;
 }
 
+/* Kartu nama + role (khusus peminjam) */
+.sidebar-usercard {
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border-radius: 11px;
+    background: #d6e8ff;
+    color: #17324d;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.sidebar-usercard strong {
+    display: block;
+    font-size: 15px;
+}
+
+/* Tombol logout merah (khusus peminjam) */
+.sidebar-logout {
+    justify-content: center;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.sidebar-logout:hover {
+    background: #dc3545;
+    color: #fff;
+    transform: none;
+}
+
 .sidebar-button {
     position: fixed;
     top: 18px;
@@ -183,11 +219,6 @@ body {
 .sidebar-toggle:checked ~ .main-content {
     margin-left: 0;
 }
-
-
-/* =========================================================
-   TOMBOL TEMA (tanpa border putih)
-   ========================================================= */
 
 .theme-button {
     position: fixed;
@@ -233,11 +264,6 @@ body {
     transform: rotate(12deg) scale(1.08);
 }
 
-
-/* =========================================================
-   MODE GELAP (checkbox #themeToggle dicentang)
-   ========================================================= */
-
 :root:has(#themeToggle:checked) .sidebar {
     background: #172033;
     color: #fff;
@@ -263,8 +289,24 @@ body {
     color: #8bbcff;
 }
 
+:root:has(#themeToggle:checked) .sidebar-label,
 :root:has(#themeToggle:checked) .sidebar-username {
     color: #aebed0;
+}
+
+:root:has(#themeToggle:checked) .sidebar-usercard {
+    background: #263957;
+    color: #fff;
+}
+
+:root:has(#themeToggle:checked) .sidebar-logout {
+    color: #ff7b88;
+    border-color: #ff7b88;
+}
+
+:root:has(#themeToggle:checked) .sidebar-logout:hover {
+    background: #dc3545;
+    color: #fff;
 }
 
 :root:has(#themeToggle:checked) .sidebar-button {
@@ -275,11 +317,6 @@ body {
 :root:has(#themeToggle:checked) .theme-button {
     background: #263957;
 }
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
 
 @media (max-width: 991px) {
 
@@ -313,28 +350,62 @@ body {
         height: 50px;
     }
 }
+.sidebar-badge {
+    margin-left: auto;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    background: #dc3545;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(220, 53, 69, .4);
+    animation: badgePulse 1.6s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}
 </style>
 
 
 @php
     $currentUser = \App\Models\User::current();
-@endphp
+    $isAdmin = $currentUser && $currentUser->role === 'admin';
+    $isPetugas = $currentUser && $currentUser->role === 'petugas';
 
+    $jumlahPending = 0;
 
-{{-- CHECKBOX SIDEBAR --}}
+    if ($isAdmin) {
+        try {
+            $jumlahPending = count(
+                \App\Models\Peminjaman::where('status', 'Pending')->get()
+            );
+        } catch (\Throwable $e) {
+            $jumlahPending = 0;
+        }
+    }
+@endphps
+
 <input type="checkbox" id="sidebarToggle" class="sidebar-toggle" autocomplete="off">
-
-{{-- CHECKBOX TEMA --}}
 <input type="checkbox" id="themeToggle" class="theme-checkbox" autocomplete="off">
 
 
-{{-- SIDEBAR --}}
 <aside id="sidebar" class="sidebar">
 
     <a href="{{ route('home') }}" class="sidebar-brand">
         <span style="font-size: 28px;">🏐</span>
         <span>{{ config('app.name') }}</span>
     </a>
+
+    @if ($currentUser && ! $isAdmin)
+        <div class="sidebar-label">MENU NAVIGASI</div>
+    @endif
 
     <nav class="sidebar-menu">
 
@@ -346,35 +417,77 @@ body {
 
         @if ($currentUser)
 
-            <a href="{{ $currentUser->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}"
+            <a href="{{ $isAdmin ? route('admin.dashboard') : route('dashboard') }}"
                class="sidebar-link {{ is_route('admin.dashboard', 'dashboard') ? 'active' : '' }}">
                 <span class="sidebar-icon">📊</span>
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('kategori.index') }}"
-               class="sidebar-link {{ is_route('kategori.index') ? 'active' : '' }}">
-                <span class="sidebar-icon">🗂️</span>
-                <span>Kategori</span>
-            </a>
+            @if ($isAdmin)
 
-            <a href="{{ route('alat.index') }}"
-               class="sidebar-link {{ is_route('alat.index') ? 'active' : '' }}">
-                <span class="sidebar-icon">🏐</span>
-                <span>Daftar Alat</span>
-            </a>
+                {{-- MENU ADMIN --}}
 
-            <a href="{{ route('peminjaman.index') }}"
-               class="sidebar-link {{ is_route('peminjaman.index') ? 'active' : '' }}">
-                <span class="sidebar-icon">📦</span>
-                <span>Peminjaman</span>
-            </a>
+                <a href="{{ route('kategori.index') }}"
+                   class="sidebar-link {{ is_route('kategori.index') ? 'active' : '' }}">
+                    <span class="sidebar-icon">🗂️</span>
+                    <span>Kategori</span>
+                </a>
 
-            <a href="{{ route('pengembalian.index') }}"
-               class="sidebar-link {{ is_route('pengembalian.index') ? 'active' : '' }}">
-                <span class="sidebar-icon">🔄</span>
-                <span>Pengembalian</span>
-            </a>
+                <a href="{{ route('alat.index') }}"
+                   class="sidebar-link {{ is_route('alat.index') ? 'active' : '' }}">
+                    <span class="sidebar-icon">🏐</span>
+                    <span>Daftar Alat</span>
+                </a>
+
+                <a href="{{ route('peminjaman.index') }}"
+                   class="sidebar-link {{ is_route('peminjaman.index') ? 'active' : '' }}">
+                   <span class="sidebar-icon">📦</span>
+                   <span>Peminjaman</span>
+
+    @if ($jumlahPending > 0)
+        <span class="sidebar-badge">{{ $jumlahPending > 99 ? '99+' : $jumlahPending }}</span>
+    @endif
+</a>
+
+                <a href="{{ route('pengembalian.index') }}"
+                   class="sidebar-link {{ is_route('pengembalian.index') ? 'active' : '' }}">
+                    <span class="sidebar-icon">🔄</span>
+                    <span>Pengembalian</span>
+                </a>
+
+
+@elseif ($isPetugas)
+
+    <a href="{{ route('petugas.persetujuan') }}"
+       class="sidebar-link {{ is_route('petugas.persetujuan') ? 'active' : '' }}">
+        <span class="sidebar-icon">✅</span>
+        <span>Persetujuan</span>
+    </a>
+
+@else
+
+                {{-- MENU PEMINJAM --}}
+
+                <a href="{{ route('alat.katalog') }}"
+                   class="sidebar-link {{ is_route('alat.katalog') ? 'active' : '' }}">
+                    <span class="sidebar-icon">🏷️</span>
+                    <span>Katalog Alat</span>
+                </a>
+
+                
+                <a href="{{ route('peminjam.riwayat') }}"
+                   class="sidebar-link {{ is_route('peminjam.riwayat') ? 'active' : '' }}">
+                    <span class="sidebar-icon">🕘</span>
+                    <span>Riwayat Peminjaman</span>
+                </a>
+
+                <a href="{{ route('peminjam.pengembalian') }}"
+                    class="sidebar-link {{ is_route('peminjam.pengembalian') ? 'active' : '' }}">
+                    <span class="sidebar-icon">↩️</span>
+                    <span>Pengembalian Alat</span>
+                </a>
+
+            @endif
 
         @endif
 
@@ -383,18 +496,35 @@ body {
     @if ($currentUser)
         <div class="sidebar-user">
 
-            <div class="sidebar-username">
-                👤 {{ $currentUser->username }}
-            </div>
+            @if ($isAdmin)
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
+                <div class="sidebar-username">
+                    👤 {{ $currentUser->username }}
+                </div>
 
-                <button type="submit" class="sidebar-link">
-                    <span class="sidebar-icon">🚪</span>
-                    <span>Logout</span>
-                </button>
-            </form>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="sidebar-link">
+                        <span class="sidebar-icon">🚪</span>
+                        <span>Logout</span>
+                    </button>
+                </form>
+
+            @else
+
+                <div class="sidebar-usercard">
+                    <strong>{{ $currentUser->username }}</strong>
+                    {{ ucfirst($currentUser->role) }}
+                </div>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="sidebar-link sidebar-logout">
+                        <span>🚪 Logout</span>
+                    </button>
+                </form>
+
+            @endif
 
         </div>
     @endif
@@ -402,7 +532,6 @@ body {
 </aside>
 
 
-{{-- TOMBOL BUKA/TUTUP SIDEBAR --}}
 <label for="sidebarToggle" class="sidebar-button"
        aria-label="Buka atau tutup sidebar"
        title="Buka atau tutup sidebar">
@@ -410,7 +539,6 @@ body {
 </label>
 
 
-{{-- TOMBOL TEMA --}}
 <label for="themeToggle" class="theme-button"
        aria-label="Ganti mode terang atau gelap"
        title="Ganti mode terang atau gelap"></label>

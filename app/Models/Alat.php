@@ -9,8 +9,9 @@ class Alat extends Model
     protected string $primaryKey = 'id_alat';
 
     protected array $fillable = [
-        'id_kategori',
-        'nama_alat',
-        'kode_alat'
-    ];
+    'id_kategori',
+    'nama_alat',
+    'kode_alat',
+    'stok'
+];
 }

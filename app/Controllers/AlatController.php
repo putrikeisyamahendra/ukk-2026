@@ -10,20 +10,46 @@ use App\Models\Kategori;
 class alatController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = Alat::query();
+{
+    $query = Alat::query();
 
     if ($request->search) {
-        $query->where(
-            'nama_alat',
-            'like',
-            '%' . $request->search . '%'
-        );
+        $cari = '%' . $request->search . '%';
+
+        $query->where('nama_alat', 'like', $cari)
+              ->orWhere('kode_alat', 'like', $cari);
     }
-        $datal = $query->orderBy('id_alat', 'desc')->paginate(4);
-        $kategori = Kategori::all();
-        return view('alat.index', compact('datal', 'kategori'));
+
+    $me = \App\Models\User::current();
+    $isAdmin = $me && $me->role === 'admin';
+
+    $datal = $query->orderBy('id_alat', 'desc')->paginate($isAdmin ? 4 : 9);
+    $kategori = Kategori::all();
+
+    // Peminjam melihat katalog kartu, admin tetap melihat tabel
+    if (! $isAdmin) {
+        return view('alat.katalog', compact('datal', 'kategori'));
     }
+
+    return view('alat.index', compact('datal', 'kategori'));
+}
+
+public function katalog(Request $request)
+{
+    $query = Alat::query();
+
+    if ($request->search) {
+        $cari = '%' . $request->search . '%';
+
+        $query->where('nama_alat', 'like', $cari)
+              ->orWhere('kode_alat', 'like', $cari);
+    }
+
+    $datal = $query->orderBy('id_alat', 'desc')->paginate(9);
+    $kategori = Kategori::all();
+
+    return view('alat.katalog', compact('datal', 'kategori'));
+}
 
     public function create(Request $request)
     {
@@ -32,15 +58,18 @@ class alatController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $datal = $request->validate([
-            'nama_alat' => 'required|min:3|max:100',
-            'kode_alat' => 'required|varchar|min:3|max:100',
-            'id_kategori' => 'required',
-        ]);
-        alat::create($datal);
-        return redirect(route('alat.index'))->with('success', 'Alat berhasil ditambahkan.');
-    }
+{
+    $datal = $request->validate([
+        'nama_alat'   => 'required|min:3|max:100',
+        'kode_alat'   => 'required|min:3|max:100',
+        'id_kategori' => 'required',
+        'stok'        => 'required|integer|min:0',
+    ]);
+
+    alat::create($datal);
+
+    return redirect(route('alat.index'))->with('success', 'Alat berhasil ditambahkan.');
+}
 
    public function edit(Request $request, $id_alat)
 {

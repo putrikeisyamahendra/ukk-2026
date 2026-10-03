@@ -4,817 +4,531 @@
 
 @section('content')
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <style> /* ========================================================= VOLLEYBALL THEME ========================================================= */
-.peminjaman-page {
-position: relative;
-overflow: hidden;
+<style>
+html:has(.pm-page),
+html:has(.pm-page) body {
+    overflow: hidden;
 }
 
-/* =========================================================
-HEADER
-========================================================= */
-
-.peminjaman-header {
-position: relative;
-min-height: 280px;
-display: flex;
-align-items: center;
-overflow: hidden;
-padding: 2rem;
-border-radius: 24px;
-
-background: linear-gradient(
-    135deg,
-    var(--bs-body-bg),
-    var(--bs-secondary-bg)
-);
-
-border: 1px solid var(--bs-border-color);
-
-box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.08);
-
-margin-bottom: 1.5rem;
-
+.pm-page {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 260px;
+    z-index: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background: linear-gradient(135deg, var(--bs-body-bg), var(--bs-secondary-bg));
+    color: var(--bs-body-color);
+    transition: left .3s ease;
 }
 
-.peminjaman-header::before {
-content: "";
-position: absolute;
-
-width: 420px;
-height: 420px;
-
-background: rgba(13, 110, 253, 0.08);
-
-border-radius: 50%;
-
-top: -220px;
-right: -120px;
-
-}
-
-.peminjaman-header::after {
-content: "";
-position: absolute;
-
-width: 330px;
-height: 330px;
-
-background: rgba(255, 193, 7, 0.10);
-
-border-radius: 50%;
-
-bottom: -190px;
-left: -100px;
-
-}
-
-.peminjaman-header-content {
-position: relative;
-z-index: 2;
-width: 100%;
-}
-
-/* =========================================================
-BADGE
-========================================================= */
-
-.badge-volley {
-display: inline-block;
-
-background: linear-gradient(
-    135deg,
-    #0d6efd,
-    #084298
-);
-
-color: #fff;
-
-font-weight: 700;
-
-box-shadow:
-    0 6px 18px rgba(13, 110, 253, 0.25);
-
-}
-
-/* =========================================================
-TITLE
-========================================================= */
-
-.peminjaman-title {
-color: var(--bs-heading-color);
-letter-spacing: -1px;
-}
-
-.text-volley {
-background: linear-gradient(
-90deg,
-#0d6efd,
-#084298
-);
-
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-
-}
-
-.peminjaman-description {
-color: var(--bs-secondary-color);
-line-height: 1.8;
-}
-
-.volley-line {
-width: 65px;
-height: 4px;
-
-margin-bottom: 20px;
-
-border-radius: 10px;
-
-background: linear-gradient(
-    90deg,
-    #0d6efd,
-    #ffc107
-);
-
-}
-
-/* =========================================================
-BUTTON BLUE
-========================================================= */
-
-.btn-volley {
-border: none;
-
-border-radius: 12px;
-
-font-weight: 700;
-
-color: #fff;
-
-background: linear-gradient(
-    135deg,
-    #0d6efd,
-    #084298
-);
-
-box-shadow:
-    0 7px 18px rgba(13, 110, 253, 0.22);
-
-transition: all 0.3s ease;
-
-}
-
-.btn-volley:hover {
-color: #fff;
-
-transform: translateY(-3px);
-
-box-shadow:
-    0 11px 25px rgba(13, 110, 253, 0.32);
-
-}
-
-/* =========================================================
-BUTTON YELLOW
-========================================================= */
-
-.btn-volley-yellow {
-border: none;
-
-border-radius: 12px;
-
-font-weight: 700;
-
-color: #102a43;
-
-background: linear-gradient(
-    135deg,
-    #ffc107,
-    #ffda44
-);
-
-box-shadow:
-    0 7px 18px rgba(255, 193, 7, 0.22);
-
-transition: all 0.3s ease;
-
-}
-
-.btn-volley-yellow:hover {
-color: #102a43;
-
-transform: translateY(-3px);
-
-box-shadow:
-    0 11px 25px rgba(255, 193, 7, 0.32);
-
-}
-
-/* =========================================================
-ALERT
-========================================================= */
-
-.peminjaman-alert {
-border: none;
-
-border-radius: 14px;
-
-box-shadow:
-    0 5px 18px rgba(0, 0, 0, 0.06);
-
-}
-
-/* =========================================================
-TABLE CARD
-========================================================= */
-
-.peminjaman-card {
-overflow: hidden;
-
-border-radius: 24px;
-
-background: color-mix(
-    in srgb,
-    var(--bs-body-bg) 92%,
-    transparent
-);
-
-border: 1px solid var(--bs-border-color);
-
-box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.07);
-
-backdrop-filter: blur(10px);
-
-}
-
-/* =========================================================
-CARD HEADER
-========================================================= */
-
-.peminjaman-card-header {
-display: flex;
-
-justify-content: space-between;
-
-align-items: center;
-
-padding: 1.25rem 1.5rem;
-
-border-bottom: 1px solid var(--bs-border-color);
-
-background: linear-gradient(
-    135deg,
-    rgba(13, 110, 253, 0.05),
-    rgba(255, 193, 7, 0.04)
-);
-
-}
-
-.peminjaman-card-title {
-color: var(--bs-heading-color);
-
-font-weight: 700;
-
-font-size: 1rem;
-
-}
-
-.peminjaman-card-title i {
-color: #0d6efd;
-}
-
-.peminjaman-card-subtitle {
-color: var(--bs-secondary-color);
-
-font-size: 0.85rem;
-
-}
-
-.total-badge {
-display: inline-flex;
-
-align-items: center;
-
-gap: 5px;
-
-padding: 0.4rem 0.75rem;
-
-border-radius: 50px;
-
-background: var(--bs-body-bg);
-
-border: 1px solid var(--bs-border-color);
-
-color: var(--bs-secondary-color);
-
-font-size: 0.8rem;
-
-white-space: nowrap;
-
-}
-
-/* =========================================================
-TABLE
-========================================================= */
-
-.table-volley {
-margin-bottom: 0;
-}
-
-.table-volley thead th {
-padding: 1rem;
-
-background-color: var(--bs-tertiary-bg);
-
-color: var(--bs-secondary-color);
-
-border-bottom: 1px solid var(--bs-border-color);
-
-font-size: 0.78rem;
-
-font-weight: 700;
-
-text-transform: uppercase;
-
-letter-spacing: 0.04em;
-
-white-space: nowrap;
-
-}
-
-.table-volley tbody td {
-padding: 1rem;
-
-vertical-align: middle;
-
-color: var(--bs-body-color);
-
-border-bottom: 1px solid var(--bs-border-color);
-
-}
-
-.table-volley tbody tr {
-transition: all 0.2s ease;
-}
-
-.table-volley tbody tr:hover {
-background-color: rgba(13, 110, 253, 0.035);
-}
-
-.table-volley tbody tr:last-child td {
-border-bottom: none;
-}
-
-/* =========================================================
-USER
-========================================================= */
-
-.user-icon {
-width: 36px;
-height: 36px;
-
-display: inline-flex;
-
-align-items: center;
-justify-content: center;
-
-flex-shrink: 0;
-
-background: rgba(13, 110, 253, 0.10);
-
-color: #0d6efd;
-
-border: 1px solid rgba(13, 110, 253, 0.12);
-
-border-radius: 50%;
-
-}
-
-/* =========================================================
-UNIT BADGE
-========================================================= */
-
-.unit-badge {
-display: inline-block;
-
-padding: 0.35rem 0.65rem;
-
-border-radius: 8px;
-
-background-color: rgba(13, 110, 253, 0.08);
-
-border: 1px solid rgba(13, 110, 253, 0.12);
-
-color: #0d6efd;
-
-font-size: 0.8rem;
-
-font-weight: 600;
-
-}
-
-/* =========================================================
-STATUS BADGE
-========================================================= */
-
-.status-badge {
-display: inline-flex;
-
-align-items: center;
-
-padding: 6px 10px;
-
-border-radius: 50px;
-
-font-size: 0.72rem;
-
-font-weight: 600;
-
-white-space: nowrap;
-
-}
-
-/* =========================================================
-ACTION
-========================================================= */
-
-.btn-action {
-padding: 0.4rem 0.7rem;
-
-border-radius: 9px;
-
-font-size: 0.8rem;
-
-font-weight: 600;
-
-transition: all 0.2s ease;
-
-}
-
-.btn-action:hover {
-transform: translateY(-1px);
-}
-
-/* =========================================================
-DELETE BUTTON - YELLOW
-========================================================= */
-
-.btn-delete-volley {
-color: #b38600;
-
-border: 1px solid #ffc107;
-
-background: transparent;
-
-border-radius: 9px;
-
-padding: 0.4rem 0.7rem;
-
-font-size: 0.8rem;
-
-font-weight: 600;
-
-transition: all 0.2s ease;
-
-}
-
-.btn-delete-volley:hover {
-color: #102a43;
-
-background: linear-gradient(
-    135deg,
-    #ffc107,
-    #ffda44
-);
-
-border-color: #ffc107;
-
-transform: translateY(-1px);
-
-box-shadow:
-    0 5px 12px rgba(255, 193, 7, 0.25);
-
-}
-
-/* =========================================================
-EMPTY STATE
-========================================================= */
-
-.empty-icon {
-width: 65px;
-height: 65px;
-
-display: flex;
-
-align-items: center;
-justify-content: center;
-
-background: var(--bs-body-bg);
-
-border: 1px solid var(--bs-border-color);
-
-border-radius: 50%;
-
-margin-bottom: 10px;
-
-color: var(--bs-secondary-color);
-
-}
-
-/* =========================================================
-PAGINATION
-========================================================= */
-
-.pagination-wrapper {
-padding: 15px 20px;
-
-border-top: 1px solid var(--bs-border-color);
-
-display: flex;
-
-justify-content: flex-end;
-
-}
-
-/* =========================================================
-VOLLEYBALL DECORATION
-========================================================= */
-
-.volleyball {
-position: absolute;
-
-width: 105px;
-height: 105px;
-
-border-radius: 50%;
-
-background: var(--bs-body-bg);
-
-border: 4px solid var(--bs-heading-color);
-
-box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.15);
-
-z-index: 1;
-
-opacity: 0.95;
-
-}
-
-.volleyball::before {
-content: "";
-
-position: absolute;
-
-width: 85px;
-height: 42px;
-
-border-top: 6px solid #0d6efd;
-
-border-radius: 50%;
-
-top: 17px;
-left: 5px;
-
-transform: rotate(35deg);
-
-}
-
-.volleyball::after {
-content: "";
-
-position: absolute;
-
-width: 70px;
-height: 35px;
-
-border-bottom: 6px solid #ffc107;
-
-border-radius: 50%;
-
-bottom: 17px;
-right: 5px;
-
-transform: rotate(-35deg);
-
-}
-
-.ball-one {
-top: 15%;
-right: 7%;
-
-animation:
-    floating 4s ease-in-out infinite;
-
-}
-
-.ball-two {
-bottom: 8%;
-right: 2%;
-
-width: 75px;
-height: 75px;
-
-opacity: 0.65;
-
-animation:
-    floating 5s ease-in-out infinite reverse;
-
-}
-
-.ball-two::before {
-width: 60px;
-height: 30px;
-
-border-width: 4px;
-
-}
-
-.ball-two::after {
-width: 50px;
-height: 25px;
-
-border-width: 4px;
-
-}
-
-@keyframes floating {
-
-0%,
-100% {
-    transform: translateY(0) rotate(0deg);
-}
-
-50% {
-    transform: translateY(-15px) rotate(8deg);
-}
-
-}
-
-/* =========================================================
-DARK MODE
-========================================================= */
-
-[data-bs-theme="dark"] .peminjaman-header {
-background: linear-gradient(
-135deg,
-var(--bs-body-bg),
-#172033
-);
-}
-
-[data-bs-theme="dark"] .peminjaman-header::before {
-background: rgba(13, 110, 253, 0.12);
-}
-
-[data-bs-theme="dark"] .peminjaman-header::after {
-background: rgba(255, 193, 7, 0.08);
-}
-
-[data-bs-theme="dark"] .peminjaman-card {
-background: rgba(255, 255, 255, 0.04);
-}
-
-[data-bs-theme="dark"] .table-volley tbody tr:hover {
-background-color: rgba(13, 110, 253, 0.07);
-}
-
-/* =========================================================
-MOBILE
-========================================================= */
-
-@media (max-width: 768px) {
-
-.peminjaman-header {
-    min-height: 330px;
-
-    padding: 1.5rem;
-}
-
-.peminjaman-header .row {
-    text-align: center;
-}
-
-.peminjaman-header .volley-line {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.peminjaman-header .btn-volley {
-    width: 100%;
-}
-
-.peminjaman-card-header {
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 8px;
-}
-
-.volleyball {
-    width: 65px;
-    height: 65px;
-}
-
-.volleyball::before {
-    width: 52px;
-    height: 25px;
-
-    border-width: 4px;
-}
-
-.volleyball::after {
-    width: 45px;
-    height: 20px;
-
-    border-width: 4px;
-}
-
-.ball-one {
-    top: 7%;
-    right: 4%;
-}
-
-.ball-two {
+.pm-page::-webkit-scrollbar {
     display: none;
 }
 
-.table-volley thead th,
+:root:has(#sidebarToggle:checked) .pm-page {
+    left: 0;
+}
+
+.pm-page::before {
+    content: "";
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    background: rgba(13, 110, 253, 0.08);
+    border-radius: 50%;
+    top: -180px;
+    left: -130px;
+    pointer-events: none;
+}
+
+.pm-page::after {
+    content: "";
+    position: fixed;
+    width: 330px;
+    height: 330px;
+    background: rgba(255, 193, 7, 0.10);
+    border-radius: 50%;
+    bottom: -160px;
+    right: -100px;
+    pointer-events: none;
+}
+
+.pm-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px 40px;
+}
+
+.badge-volley {
+    background: linear-gradient(135deg, #0d6efd, #084298);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(13, 110, 253, 0.25);
+}
+
+.volley-line {
+    width: 65px;
+    height: 4px;
+    margin: 0 0 16px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #0d6efd, #ffc107);
+}
+
+.pm-title {
+    color: var(--bs-heading-color);
+    letter-spacing: -1px;
+}
+
+.text-volley {
+    background: linear-gradient(90deg, #0d6efd, #084298);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pm-desc {
+    color: var(--bs-secondary-color);
+}
+
+.btn-volley {
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #0d6efd, #084298);
+    box-shadow: 0 7px 18px rgba(13, 110, 253, 0.22);
+    transition: all 0.3s ease;
+}
+
+.btn-volley:hover {
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 11px 25px rgba(13, 110, 253, 0.32);
+}
+
+.btn-delete-volley {
+    color: #b38600;
+    border: 1px solid #ffc107;
+    background: transparent;
+    border-radius: 9px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-delete-volley:hover {
+    color: #102a43;
+    background: linear-gradient(135deg, #ffc107, #ffda44);
+    border-color: #ffc107;
+}
+
+.btn-action {
+    padding: 0.35rem 0.65rem;
+    border-radius: 9px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.pm-card {
+    overflow: hidden;
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--bs-body-bg) 90%, transparent);
+    border: 1px solid var(--bs-border-color);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.pm-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--bs-border-color);
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.05), rgba(255, 193, 7, 0.04));
+}
+
+.pm-card-title {
+    color: var(--bs-heading-color);
+    font-weight: 700;
+}
+
+.pm-card-sub {
+    color: var(--bs-secondary-color);
+    font-size: 0.85rem;
+}
+
+.table-volley {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--bs-body-color);
+    --bs-table-border-color: var(--bs-border-color);
+    margin-bottom: 0;
+}
+
+.table-volley thead th {
+    padding: 0.9rem 1rem;
+    background: var(--bs-tertiary-bg);
+    color: var(--bs-secondary-color);
+    border-bottom: 1px solid var(--bs-border-color);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
 .table-volley tbody td {
-    padding: 0.75rem;
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+    color: var(--bs-body-color);
+    border-bottom: 1px solid var(--bs-border-color);
 }
 
-.pagination-wrapper {
-    justify-content: center;
+.table-volley tbody tr:hover {
+    background: rgba(13, 110, 253, 0.04);
 }
 
+.table-volley tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.unit-badge {
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    background: rgba(13, 110, 253, 0.08);
+    border: 1px solid rgba(13, 110, 253, 0.15);
+    color: #0d6efd;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.st-pending { background: rgba(255, 193, 7, .18); color: #b38600; }
+.st-setuju  { background: rgba(13, 202, 240, .18); color: #0a8aa5; }
+.st-tolak   { background: rgba(220, 53, 69, .15); color: #dc3545; }
+.st-pinjam  { background: rgba(13, 110, 253, .15); color: #0d6efd; }
+.st-kembali { background: rgba(25, 135, 84, .15); color: #198754; }
+
+.pm-alert {
+    border: none;
+    border-radius: 14px;
+}
+
+.volleyball {
+    position: fixed;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: var(--bs-tertiary-bg);
+    border: none;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    opacity: 0.9;
+    pointer-events: none;
+    bottom: 6%;
+    right: 5%;
+    animation: floating 4s ease-in-out infinite;
+}
+
+.volleyball::before {
+    content: "";
+    position: absolute;
+    width: 68px;
+    height: 34px;
+    border-top: 5px solid #0d6efd;
+    border-radius: 50%;
+    top: 14px;
+    left: 4px;
+    transform: rotate(35deg);
+}
+
+.volleyball::after {
+    content: "";
+    position: absolute;
+    width: 56px;
+    height: 28px;
+    border-bottom: 5px solid #ffc107;
+    border-radius: 50%;
+    bottom: 14px;
+    right: 4px;
+    transform: rotate(-35deg);
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(8deg); }
+}
+
+@media (max-width: 991px) {
+    .pm-page,
+    :root:has(#sidebarToggle:checked) .pm-page {
+        left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .pm-content {
+        padding: 80px 15px 30px;
+    }
+
+    .pm-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .volleyball {
+        display: none;
+    }
 }
 </style>
 
-<div class="container py-3 py-lg-4 peminjaman-page">
-{{-- =====================================================
-     HEADER
-====================================================== --}}
+@php
+    $namaUser = [];
+    foreach ($users as $u) {
+        $namaUser[$u->id] = $u->username;
+    }
 
-<section class="peminjaman-header">
+    $namaAlat = [];
+    foreach ($alat as $a) {
+        $namaAlat[$a->id_alat] = $a->nama_alat;
+    }
+@endphp
 
-    <div class="volleyball ball-one"></div>
-    <div class="volleyball ball-two"></div>
+<section class="pm-page">
 
-    <div class="peminjaman-header-content">
+    <div class="volleyball"></div>
 
-        <span class="badge rounded-pill badge-volley px-4 py-2 mb-4">
+    <div class="pm-content">
 
-            🏐 TRANSAKSI PEMINJAMAN
+        {{-- HEADER --}}
 
-        </span>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
 
-        <div class="volley-line"></div>
+            <div>
+                <span class="badge rounded-pill badge-volley px-4 py-2 mb-3">
+                    🏐 TRANSAKSI PEMINJAMAN
+                </span>
 
-        <div class="row align-items-center">
+                <div class="volley-line"></div>
 
-            <div class="col-lg-8">
-
-                <h1 class="display-6 fw-bold mb-3 peminjaman-title">
-
-                    Daftar
-                    <span class="text-volley">
-                        Peminjaman Alat
-                    </span>
-
+                <h1 class="display-6 fw-bold mb-2 pm-title">
+                    Daftar <span class="text-volley">Peminjaman Alat</span>
                 </h1>
 
-                <p
-                    class="lead peminjaman-description mb-0"
-                    style="max-width: 650px;"
-                >
-
-                    Kelola riwayat permohonan, status persetujuan,
-                    dan jadwal peminjaman alat sarpras.
-
+                <p class="pm-desc mb-0">
+                    Kelola permohonan, status persetujuan, dan jadwal peminjaman alat.
                 </p>
+            </div>
+
+            <a href="{{ route('peminjaman.create') }}" class="btn btn-volley btn-lg px-4">
+                + Tambah Peminjaman
+            </a>
+
+        </div>
+
+
+        {{-- ALERT --}}
+
+        @if (session('success'))
+            <div class="alert alert-success pm-alert mb-4">
+                ✅ {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger pm-alert mb-4">
+                ⚠️ {{ session('error') }}
+            </div>
+        @endif
+
+
+        {{-- TABEL --}}
+
+        <div class="pm-card">
+
+            <div class="pm-card-header">
+
+                <div>
+                    <div class="pm-card-title">📋 Data Peminjaman Alat</div>
+                    <div class="pm-card-sub">Daftar transaksi peminjaman alat.</div>
+                </div>
+
+                <span class="pm-card-sub">Total: {{ count($data) }} data di halaman ini</span>
 
             </div>
 
-            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+            <div class="table-responsive">
 
-                <a
-                    href="{{ route('peminjaman.create') }}"
-                    class="btn btn-volley btn-lg px-4"
-                >
+                <table class="table table-volley align-middle">
 
-                    <i class="bi bi-plus-circle-fill me-2"></i>
+                    <thead>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th>Peminjam</th>
+                            <th>Nama Alat</th>
+                            <th>Jumlah</th>
+                            <th>Tgl Pinjam</th>
+                            <th>Tgl Kembali</th>
+                            <th>Status</th>
+                            <th>Denda</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
 
-                    Tambah Peminjaman
+                    <tbody>
 
-                </a>
+                        @php $no = 1; @endphp
+
+                        @forelse ($data as $peminjaman)
+
+                            <tr>
+
+                                <td class="text-center text-secondary">{{ $no++ }}</td>
+
+                                <td class="fw-semibold">
+                                    {{ $namaUser[$peminjaman->id_user] ?? 'User ID: ' . $peminjaman->id_user }}
+                                </td>
+
+                                <td class="fw-semibold">
+                                    {{ $namaAlat[$peminjaman->id_alat] ?? 'Alat ID: ' . $peminjaman->id_alat }}
+                                </td>
+
+                                <td>
+                                    <span class="unit-badge">{{ $peminjaman->jumlah }} Unit</span>
+                                </td>
+
+                                <td class="text-secondary">{{ $peminjaman->tanggal_pinjam }}</td>
+
+                                <td class="text-secondary">
+                                    {{ $peminjaman->tanggal_kembali ?: '-' }}
+                                </td>
+
+                                <td>
+                                    @if ($peminjaman->status == 'Pending')
+                                        <span class="status-badge st-pending">⏳ Pending</span>
+                                    @elseif ($peminjaman->status == 'Disetujui')
+                                        <span class="status-badge st-setuju">✔ Disetujui</span>
+                                    @elseif ($peminjaman->status == 'Ditolak')
+                                        <span class="status-badge st-tolak">✖ Ditolak</span>
+                                    @elseif ($peminjaman->status == 'Dipinjam')
+                                        <span class="status-badge st-pinjam">📦 Dipinjam</span>
+                                    @else
+                                        <span class="status-badge st-kembali">✅ Dikembalikan</span>
+                                    @endif
+                                </td>
+
+                                <td>
+                                    @if (($peminjaman->denda ?? 0) > 0)
+                                        <span class="text-danger fw-bold">
+                                            Rp {{ number_format($peminjaman->denda, 0, ',', '.') }}
+                                        </span>
+                                    @else
+                                        <span class="text-secondary">Rp 0</span>
+                                    @endif
+                                </td>
+
+                                <td class="text-center">
+
+                                    <div class="d-inline-flex flex-wrap align-items-center justify-content-center gap-1">
+
+                                        {{-- SETUJUI / TOLAK (hanya saat Pending) --}}
+
+                                        @if ($peminjaman->status == 'Pending')
+
+                                            <form method="POST"
+                                                  action="{{ route('peminjaman.setujui', ['id_peminjaman' => $peminjaman->id_peminjaman]) }}"
+                                                  class="d-inline m-0">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-success btn-action">
+                                                    Setujui
+                                                </button>
+                                            </form>
+
+                                            <form method="POST"
+                                                  action="{{ route('peminjaman.tolak', ['id_peminjaman' => $peminjaman->id_peminjaman]) }}"
+                                                  class="d-inline m-0"
+                                                  onsubmit="return confirm('Tolak pengajuan ini?')">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-outline-danger btn-action">
+                                                    Tolak
+                                                </button>
+                                            </form>
+
+                                        @endif
+
+                                        {{-- EDIT --}}
+
+                                        <a href="{{ route('peminjaman.edit', ['id_peminjaman' => $peminjaman->id_peminjaman]) }}"
+                                           class="btn btn-outline-primary btn-action text-decoration-none">
+                                            Edit
+                                        </a>
+
+                                        {{-- HAPUS --}}
+
+                                        <form action="{{ route('peminjaman.delete', ['id_peminjaman' => $peminjaman->id_peminjaman]) }}"
+                                              method="POST"
+                                              class="d-inline m-0">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="btn btn-delete-volley"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data peminjaman ini?')">
+                                                Hapus
+                                            </button>
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+                                <td colspan="9" class="text-center py-5 text-secondary">
+                                    <div style="font-size: 2.5rem;">🏐</div>
+                                    <div class="fw-bold mb-1">Belum Ada Data Peminjaman</div>
+                                    <div class="small">
+                                        Data peminjaman yang diajukan akan muncul di sini.
+                                    </div>
+                                </td>
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
 
             </div>
+
+            @if (method_exists($data, 'hasPages') && $data->hasPages())
+                <div class="p-3 d-flex justify-content-end">
+                    {!! $data->links() !!}
+                </div>
+            @endif
 
         </div>
 
@@ -822,431 +536,4 @@ MOBILE
 
 </section>
 
-{{-- =====================================================
-     SUCCESS ALERT
-====================================================== --}}
-
-@if(session('success'))
-
-    <div
-        class="alert alert-success alert-dismissible fade show peminjaman-alert mb-4"
-        role="alert"
-    >
-
-        <div class="d-flex align-items-center gap-2">
-
-            <i class="bi bi-check-circle-fill fs-5"></i>
-
-            <div class="small fw-medium">
-
-                {{ session('success') }}
-
-            </div>
-
-        </div>
-
-        <button
-            type="button"
-            class="btn-close shadow-none"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-        ></button>
-
-    </div>
-
-@endif
-
-{{-- =====================================================
-     TABLE CARD
-====================================================== --}}
-
-<div class="peminjaman-card">
-
-    {{-- CARD HEADER --}}
-
-    <div class="peminjaman-card-header">
-
-        <div>
-
-            <div class="peminjaman-card-title">
-
-                <i class="bi bi-list-check me-2"></i>
-
-                Data Peminjaman Alat
-
-            </div>
-
-            <div class="peminjaman-card-subtitle">
-
-                Daftar transaksi peminjaman alat yang tersedia.
-
-            </div>
-
-        </div>
-
-        <span class="total-badge">
-
-            <i class="bi bi-database"></i>
-
-            Total: {{ count($data) }} Data
-
-        </span>
-
-    </div>
-
-    {{-- =================================================
-         TABLE
-    ================================================== --}}
-
-    <div class="table-responsive">
-
-        <table class="table table-volley align-middle">
-
-            <thead>
-
-                <tr>
-
-                    <th
-                        class="text-center"
-                        style="width: 5%;"
-                    >
-                        No
-                    </th>
-
-                    <th>
-                        Peminjam
-                    </th>
-
-                    <th>
-                        Nama Alat
-                    </th>
-
-                    <th>
-                        Jumlah
-                    </th>
-
-                    <th>
-                        Tgl Pinjam
-                    </th>
-
-                    <th>
-                        Tgl Kembali
-                    </th>
-
-                    <th>
-                        Status
-                    </th>
-
-                    <th>
-                        Denda
-                    </th>
-
-                    <th
-                        class="text-center"
-                        style="width: 180px;"
-                    >
-                        Aksi
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @php
-                    $no = 1;
-                @endphp
-
-                @forelse ($data as $peminjaman)
-
-                    <tr>
-
-                        {{-- NO --}}
-
-                        <td class="text-center text-body-secondary fw-medium">
-
-                            {{ $no++ }}
-
-                        </td>
-
-                        {{-- PEMINJAM --}}
-
-                        <td>
-
-                            <div class="d-flex align-items-center gap-2">
-
-                                <div class="user-icon">
-
-                                    <i class="bi bi-person-fill"></i>
-
-                                </div>
-
-                                <span class="fw-semibold">
-
-                                    {{ $peminjaman->user->nama ?? 'User ID: ' . $peminjaman->id_user }}
-
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                        {{-- NAMA ALAT --}}
-
-                        <td>
-
-                            <span class="fw-semibold">
-
-                                {{ $peminjaman->alat->nama_alat ?? 'Alat ID: ' . $peminjaman->id_alat }}
-
-                            </span>
-
-                        </td>
-
-                        {{-- JUMLAH --}}
-
-                        <td>
-
-                            <span class="unit-badge">
-
-                                {{ $peminjaman->jumlah }} Unit
-
-                            </span>
-
-                        </td>
-
-                        {{-- TANGGAL PINJAM --}}
-
-                        <td>
-
-                            <span class="text-body-secondary">
-
-                                <i class="bi bi-calendar-event me-1"></i>
-
-                                {{ $peminjaman->tanggal_pinjam }}
-
-                            </span>
-
-                        </td>
-
-                        {{-- TANGGAL KEMBALI --}}
-
-                        <td>
-
-                            <span class="text-body-secondary">
-
-                                @if($peminjaman->tanggal_kembali)
-
-                                    <i class="bi bi-calendar-check me-1"></i>
-
-                                    {{ $peminjaman->tanggal_kembali }}
-
-                                @else
-
-                                    -
-
-                                @endif
-
-                            </span>
-
-                        </td>
-
-                        {{-- STATUS --}}
-
-                        <td>
-
-                            @if($peminjaman->status == 'Pending')
-
-                                <span class="status-badge bg-warning-subtle text-warning border border-warning border-opacity-25">
-
-                                    <i class="bi bi-hourglass-split me-1"></i>
-
-                                    Pending
-
-                                </span>
-
-                            @elseif($peminjaman->status == 'Disetujui')
-
-                                <span class="status-badge bg-info-subtle text-info border border-info border-opacity-25">
-
-                                    <i class="bi bi-check2-circle me-1"></i>
-
-                                    Disetujui
-
-                                </span>
-
-                            @elseif($peminjaman->status == 'Ditolak')
-
-                                <span class="status-badge bg-danger-subtle text-danger border border-danger border-opacity-25">
-
-                                    <i class="bi bi-x-circle me-1"></i>
-
-                                    Ditolak
-
-                                </span>
-
-                            @elseif($peminjaman->status == 'Dipinjam')
-
-                                <span class="status-badge bg-primary-subtle text-primary border border-primary border-opacity-25">
-
-                                    <i class="bi bi-box-arrow-up-right me-1"></i>
-
-                                    Dipinjam
-
-                                </span>
-
-                            @else
-
-                                <span class="status-badge bg-success-subtle text-success border border-success border-opacity-25">
-
-                                    <i class="bi bi-check-circle-fill me-1"></i>
-
-                                    Dikembalikan
-
-                                </span>
-
-                            @endif
-
-                        </td>
-
-                        {{-- DENDA --}}
-
-                        <td>
-
-                            @if(($peminjaman->denda ?? 0) > 0)
-
-                                <span class="text-danger fw-bold">
-
-                                    Rp
-                                    {{ number_format($peminjaman->denda, 0, ',', '.') }}
-
-                                </span>
-
-                            @else
-
-                                <span class="text-body-secondary">
-
-                                    Rp 0
-
-                                </span>
-
-                            @endif
-
-                        </td>
-
-                        {{-- AKSI --}}
-
-                        <td class="text-center">
-
-                            <div class="d-inline-flex align-items-center justify-content-center gap-1">
-
-                                {{-- EDIT --}}
-
-                                <a
-                                    href="{{ route('peminjaman.edit', ['id_peminjaman' => $peminjaman->id_peminjaman]) }}"
-                                    class="btn btn-outline-primary btn-action d-inline-flex align-items-center gap-1"
-                                    title="Edit Peminjaman"
-                                >
-
-                                    <i class="bi bi-pencil-square"></i>
-
-                                    Edit
-
-                                </a>
-
-                                {{-- DELETE --}}
-
-                                <form
-                                    action="{{ route('peminjaman.delete', ['id_peminjaman' => $peminjaman->id_peminjaman]) }}"
-                                    method="POST"
-                                    class="d-inline m-0"
-                                >
-
-                                    @csrf
-
-                                    @method('DELETE')
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-delete-volley d-inline-flex align-items-center gap-1"
-                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data peminjaman ini?')"
-                                        title="Hapus Data"
-                                    >
-
-                                        <i class="bi bi-trash"></i>
-
-                                        Hapus
-
-                                    </button>
-
-                                </form>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                @empty
-
-                    <tr>
-
-                        <td
-                            colspan="9"
-                            class="text-center py-5 text-body-secondary"
-                        >
-
-                            <div class="d-flex flex-column align-items-center">
-
-                                <div class="empty-icon">
-
-                                    <i class="bi bi-inbox fs-2 opacity-50"></i>
-
-                                </div>
-
-                                <h6 class="fw-bold mb-1 text-body">
-
-                                    Belum Ada Data Peminjaman
-
-                                </h6>
-
-                                <span class="small">
-
-                                    Data peminjaman alat yang diajukan
-                                    akan muncul di sini.
-
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                @endforelse
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    {{-- =================================================
-         PAGINATION
-    ================================================== --}}
-
-    @if(method_exists($data, 'hasPages') && $data->hasPages())
-
-        <div class="pagination-wrapper">
-
-            {!! $data->links() !!}
-
-        </div>
-
-    @endif
-
-</div>
-
-</div>
 @endsection
