@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS `log_aktivitas` (
+    id_log      INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_user     INT UNSIGNED NULL,
+    aktivitas   VARCHAR(255) NOT NULL,
+    created_at  DATETIME NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

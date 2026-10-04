@@ -10,6 +10,8 @@ use App\Controllers\KategoriController;
 use App\Controllers\AlatController;
 use App\Controllers\PeminjamanController;
 use App\Controllers\PengembalianController;
+use App\Controllers\PetugasController;
+use App\Controllers\LogController;
 use Sakuci\Route;
 
 /*
@@ -48,6 +50,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
+Route::get('/log', [LogController::class, 'index'])->name('admin.log');
 
     Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/roles', [RoleController::class, 'store'])->name('admin.roles.store');
@@ -116,6 +119,16 @@ Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
     Route::get('/riwayat', [PeminjamanController::class, 'riwayat'])->name('peminjam.riwayat');
     Route::get('/pengembalian', [PengembalianController::class, 'pengembalian'])->name('peminjam.pengembalian');
     Route::get('/beranda', [DashboardController::class, 'peminjam'])->name('peminjam.beranda');
+    Route::post('/kembalikan/{id_peminjaman}', [PengembalianController::class, 'kembalikan'])->name('peminjam.kembalikan');
+});
+
+Route::group(['prefix' => 'petugas', 'middleware' => 'petugas'], function () {
+    Route::get('/persetujuan', [PetugasController::class, 'persetujuan'])->name('petugas.persetujuan');
+    Route::put('/persetujuan/{id_peminjaman}/setujui', [PetugasController::class, 'setujui'])->name('petugas.setujui');
+    Route::put('/persetujuan/{id_peminjaman}/tolak', [PetugasController::class, 'tolak'])->name('petugas.tolak');
+
+    Route::get('/pemantauan', [PetugasController::class, 'pemantauan'])->name('petugas.pemantauan');
+    Route::put('/pemantauan/{id_pengembalian}/kondisi', [PetugasController::class, 'kondisi'])->name('petugas.kondisi');
 });
 
 /*

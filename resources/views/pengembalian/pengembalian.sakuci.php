@@ -45,6 +45,7 @@ html:has(.pm-page), html:has(.pm-page) body { overflow: hidden; }
                             <th>Batas Kembali</th>
                             <th>Status</th>
                             <th>Denda</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,6 +69,18 @@ html:has(.pm-page), html:has(.pm-page) body { overflow: hidden; }
                                     @else
                                         <span class="text-secondary">Rp 0</span>
                                     @endif
+                                    <td class="text-center">
+    @if ($p->status === 'Disetujui')
+        <form method="POST"
+              action="{{ route('peminjam.kembalikan', ['id_peminjaman' => $p->id_peminjaman]) }}"
+              onsubmit="return confirm('Kembalikan alat ini sekarang?')">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-primary">Kembalikan</button>
+        </form>
+    @else
+        <span class="text-secondary small">-</span>
+    @endif
+</td>
                                 </td>
                             </tr>
                         @empty

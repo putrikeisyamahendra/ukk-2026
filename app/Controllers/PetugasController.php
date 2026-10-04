@@ -7,6 +7,7 @@ use Sakuci\Http\Request;
 use App\Models\Peminjaman;
 use App\Models\User;
 use App\Models\Alat;
+use App\Models\Pengembalian;
 
 class PetugasController extends Controller
 {
@@ -49,7 +50,47 @@ class PetugasController extends Controller
         if ($p->status === 'Pending') {
             $p->update(['status' => 'Ditolak']);
         }
+        if ($p->status === 'Pending') {
+    $p->update(['status' => 'Ditolak']);
+    \App\Models\LogAktivitas::catat('Menolak peminjaman #' . $p->id_peminjaman);
+}
 
         return redirect(route('petugas.persetujuan'))->with('success', 'Pengajuan ditolak.');
+    }
+
+        // Pantau alat yang dipinjam dan yang sudah kembali
+    public function pemantauan(Request $request)
+    {
+        $dipinjam = Peminjaman::where('status', 'Disetujui')
+            ->orderBy('id_peminjaman', 'desc')
+            ->get();
+
+        $kembali = Pengembalian::orderBy('id_pengembalian', 'desc')->paginate(10);
+
+        $users      = User::all();
+        $alat       = Alat::all();
+        $peminjaman = Peminjaman::all();
+
+        return view('petugas.pemantauan', compact('dipinjam', 'kembali', 'users', 'alat', 'peminjaman'));
+    }
+
+    // Ubah kondisi barang (Baik / Rusak / Hilang)
+    public function kondisi(Request $request, $id_pengembalian)
+    {
+        $data = $request->validate([
+            'kondisi_barang' => 'required|string|max:100',
+            'catatan'        => 'nullable|string',
+        ]);
+
+        if (! in_array($data['kondisi_barang'], ['Baik', 'Rusak', 'Hilang'])) {
+            return redirect(route('petugas.pemantauan'))
+                ->with('error', 'Kondisi tidak valid.');
+        }
+
+        $pengembalian = Pengembalian::findOrFail($id_pengembalian);
+        $pengembalian->update($data);
+
+        return redirect(route('petugas.pemantauan'))
+            ->with('success', 'Kondisi barang diperbarui.');
     }
 }

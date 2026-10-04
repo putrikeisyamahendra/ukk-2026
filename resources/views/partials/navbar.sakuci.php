@@ -455,6 +455,12 @@ body {
                     <span>Pengembalian</span>
                 </a>
 
+                <a href="{{ route('admin.log') }}"
+                   class="sidebar-link {{ is_route('admin.log') ? 'active' : '' }}">
+                   <span class="sidebar-icon">📜</span>
+                   <span>Log Aktivitas</span>
+                </a>
+
 
 @elseif ($isPetugas)
 
@@ -462,6 +468,17 @@ body {
        class="sidebar-link {{ is_route('petugas.persetujuan') ? 'active' : '' }}">
         <span class="sidebar-icon">✅</span>
         <span>Persetujuan</span>
+    </a>
+
+        @if ($jumlahPending > 0)
+            <span class="sidebar-badge">{{ $jumlahPending > 99 ? '99+' : $jumlahPending }}</span>
+        @endif
+    </a>
+   
+    <a href="{{ route('petugas.pemantauan') }}"
+       class="sidebar-link {{ is_route('petugas.pemantauan') ? 'active' : '' }}">
+       <span class="sidebar-icon">🔍</span>
+       <span>Pemantauan</span>
     </a>
 
 @else

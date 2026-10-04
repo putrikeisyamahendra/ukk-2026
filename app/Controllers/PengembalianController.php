@@ -96,6 +96,7 @@ class PengembalianController extends Controller
         // Halaman pengembalian milik peminjam (hanya lihat)
         // Halaman pengembalian milik peminjam (hanya lihat)
     
+        // Halaman pengembalian milik peminjam (hanya lihat)
     public function pengembalian(Request $request)
     {
         $me = \App\Models\User::current();
@@ -108,5 +109,48 @@ class PengembalianController extends Controller
         $alat = \App\Models\Alat::all();
 
         return view('pengembalian.pengembalian', compact('data', 'alat'));
+    }
+
+    // Peminjam mengembalikan alat
+    public function kembalikan(Request $request, $id_peminjaman)
+    {
+        $me = \App\Models\User::current();
+        $p  = Peminjaman::findOrFail($id_peminjaman);
+
+        if ((int) $p->id_user !== (int) $me->id) {
+            return redirect(route('peminjam.pengembalian'))
+                ->with('error', 'Ini bukan peminjaman kamu.');
+        }
+
+        if ($p->status !== 'Disetujui') {
+            return redirect(route('peminjam.pengembalian'))
+                ->with('error', 'Peminjaman ini tidak bisa dikembalikan.');
+        }
+
+        $hariIni   = date('Y-m-d');
+        $rencana   = $p->tanggal_kembali ? strtotime($p->tanggal_kembali) : 0;
+        $terlambat = $rencana ? max(0, (int) floor((strtotime($hariIni) - $rencana) / 86400)) : 0;
+        $denda     = $terlambat * 5000;
+
+        Pengembalian::create([
+            'id_peminjaman'        => $p->id_peminjaman,
+            'tanggal_pengembalian' => $hariIni,
+            'terlambat_hari'       => $terlambat,
+            'denda'                => $denda,
+            'kondisi_barang'       => 'Baik',
+            'catatan'              => 'Dikembalikan oleh peminjam',
+        ]);
+
+        $alat = \App\Models\Alat::findOrFail($p->id_alat);
+        $alat->update(['stok' => (int) $alat->stok + (int) $p->jumlah]);
+
+        $p->update(['status' => 'Dikembalikan', 'denda' => $denda]);
+
+        $pesan = 'Alat berhasil dikembalikan.';
+        if ($denda > 0) {
+            $pesan .= ' Terlambat ' . $terlambat . ' hari, denda Rp ' . number_format($denda, 0, ',', '.') . '.';
+        }
+
+        return redirect(route('peminjam.pengembalian'))->with('success', $pesan);
     }
 }
