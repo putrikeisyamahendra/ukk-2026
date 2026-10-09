@@ -29,368 +29,151 @@
     --bs-link-hover-color: #8bbcff;
 }
 
-body {
-    background-color: var(--bs-body-bg) !important;
-    color: var(--bs-body-color);
-}
+html, body { background-color: var(--bs-body-bg) !important; color: var(--bs-body-color); }
+.main-content { background-color: var(--bs-body-bg); }
 
-.main-content {
-    background-color: var(--bs-body-bg);
-}
-
-.sidebar-toggle,
-.theme-checkbox {
-    display: none;
-}
+.sidebar-toggle, .theme-checkbox { display: none; }
 
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 260px;
-    height: 100vh;
-    height: 100dvh;
-    overflow-y: auto;
-    scrollbar-width: none;
-    padding: 22px 15px;
-    display: flex;
-    flex-direction: column;
-    background: #eaf3ff;
-    color: #17324d;
-    z-index: 1000;
-    transform: translateX(0);
-    transition: transform .3s ease;
+    position: fixed; top: 0; left: 0; width: 260px;
+    height: 100vh; height: 100dvh;
+    overflow-y: auto; scrollbar-width: none;
+    padding: 22px 15px; display: flex; flex-direction: column;
+    background: #eaf3ff; color: #17324d; z-index: 1000;
+    transform: translateX(0); transition: transform .3s ease;
     box-shadow: 4px 0 20px rgba(13, 110, 253, .08);
 }
-
-.sidebar::-webkit-scrollbar {
-    display: none;
-}
-
-.sidebar-toggle:checked ~ .sidebar {
-    transform: translateX(-100%);
-}
+.sidebar::-webkit-scrollbar { display: none; }
+.sidebar-toggle:checked ~ .sidebar { transform: translateX(-100%); }
 
 .sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 5px 10px 25px;
-    color: #17324d;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: 700;
+    display: flex; align-items: center; gap: 12px; padding: 5px 10px 25px;
+    color: #17324d; text-decoration: none; font-size: 20px; font-weight: 700;
 }
-
-.sidebar-brand:hover {
-    color: #17324d;
-}
+.sidebar-brand:hover { color: #17324d; }
 
 .sidebar-label {
-    padding: 0 14px 8px;
-    color: #59738d;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+    padding: 0 14px 8px; color: #59738d; font-size: 11px;
+    font-weight: 700; letter-spacing: 1.5px;
 }
 
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
+.sidebar-menu { display: flex; flex-direction: column; gap: 6px; }
 
 .sidebar-link {
-    width: 100%;
-    min-height: 46px;
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    padding: 11px 14px;
-    border: none;
-    border-radius: 11px;
-    background: transparent;
-    color: #31506d;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
+    width: 100%; min-height: 46px; display: flex; align-items: center; gap: 13px;
+    padding: 11px 14px; border: none; border-radius: 11px; background: transparent;
+    color: #31506d; text-decoration: none; font-weight: 500; cursor: pointer;
     transition: background .2s ease, color .2s ease, transform .2s ease;
 }
-
-.sidebar-link:hover {
-    background: #d6e8ff;
-    color: #0d6efd;
-    transform: translateX(3px);
-}
-
+.sidebar-link:hover { background: #d6e8ff; color: #0d6efd; transform: translateX(3px); }
 .sidebar-link.active {
-    background: #cfe2ff;
-    color: #084298;
-    font-weight: 700;
+    background: #cfe2ff; color: #084298; font-weight: 700;
     box-shadow: 0 5px 15px rgba(13, 110, 253, .08);
 }
 
 .sidebar-icon {
-    width: 26px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    width: 26px; flex-shrink: 0; display: flex; align-items: center;
+    justify-content: center; font-size: 18px;
 }
 
-.sidebar-user {
-    margin-top: auto;
-    padding-top: 15px;
-    border-top: 1px solid rgba(13, 110, 253, .15);
-}
-
-.sidebar-username {
-    padding: 5px 14px 10px;
-    color: #59738d;
-    font-size: 13px;
-}
-
-/* Kartu nama + role (khusus peminjam) */
-.sidebar-usercard {
-    margin-bottom: 10px;
-    padding: 12px 14px;
-    border-radius: 11px;
-    background: #d6e8ff;
-    color: #17324d;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.sidebar-usercard strong {
-    display: block;
-    font-size: 15px;
-}
-
-/* Tombol logout merah (khusus peminjam) */
-.sidebar-logout {
-    justify-content: center;
-    border: 1px solid #dc3545;
-    color: #dc3545;
-    font-weight: 600;
-}
-
-.sidebar-logout:hover {
-    background: #dc3545;
-    color: #fff;
-    transform: none;
-}
-
-.sidebar-button {
-    position: fixed;
-    top: 18px;
-    left: 275px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 11px;
-    background: #eaf3ff;
-    color: #0d6efd;
-    font-size: 22px;
-    cursor: pointer;
-    z-index: 9998;
-    box-shadow: 0 5px 15px rgba(13, 110, 253, .12);
-    transition: left .3s ease, background .2s ease, transform .2s ease;
-}
-
-.sidebar-button:hover {
-    background: #d6e8ff;
-    transform: translateY(-2px);
-}
-
-.sidebar-toggle:checked ~ .sidebar-button {
-    left: 18px;
-}
-
-.main-content {
-    min-height: 100vh;
-    margin-left: 260px;
-    transition: margin-left .3s ease;
-}
-
-.sidebar-toggle:checked ~ .main-content {
-    margin-left: 0;
-}
-
-.theme-button {
-    position: fixed;
-    top: 18px;
-    right: 20px;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: none;
-    cursor: pointer;
-    z-index: 99999;
-    overflow: hidden;
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, .35), 0 8px 20px rgba(0, 0, 0, .15);
-    transition: transform .3s ease, box-shadow .3s ease;
-}
-
-.theme-button::before {
-    content: "";
-    position: absolute;
-    width: 43px;
-    height: 22px;
-    top: 8px;
-    left: 1px;
-    border-top: 4px solid #0d6efd;
-    border-radius: 50%;
-    transform: rotate(35deg);
-}
-
-.theme-button::after {
-    content: "";
-    position: absolute;
-    width: 37px;
-    height: 19px;
-    bottom: 7px;
-    right: 0;
-    border-bottom: 4px solid #ffc107;
-    border-radius: 50%;
-    transform: rotate(-35deg);
-}
-
-.theme-button:hover {
-    transform: rotate(12deg) scale(1.08);
-}
-
-:root:has(#themeToggle:checked) .sidebar {
-    background: #172033;
-    color: #fff;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, .25);
-}
-
-:root:has(#themeToggle:checked) .sidebar-brand,
-:root:has(#themeToggle:checked) .sidebar-brand:hover {
-    color: #fff;
-}
-
-:root:has(#themeToggle:checked) .sidebar-link {
-    color: #d7e3f0;
-}
-
-:root:has(#themeToggle:checked) .sidebar-link:hover {
-    background: #263957;
-    color: #72aaff;
-}
-
-:root:has(#themeToggle:checked) .sidebar-link.active {
-    background: #29456d;
-    color: #8bbcff;
-}
-
-:root:has(#themeToggle:checked) .sidebar-label,
-:root:has(#themeToggle:checked) .sidebar-username {
-    color: #aebed0;
-}
-
-:root:has(#themeToggle:checked) .sidebar-usercard {
-    background: #263957;
-    color: #fff;
-}
-
-:root:has(#themeToggle:checked) .sidebar-logout {
-    color: #ff7b88;
-    border-color: #ff7b88;
-}
-
-:root:has(#themeToggle:checked) .sidebar-logout:hover {
-    background: #dc3545;
-    color: #fff;
-}
-
-:root:has(#themeToggle:checked) .sidebar-button {
-    background: #172033;
-    color: #72aaff;
-}
-
-:root:has(#themeToggle:checked) .theme-button {
-    background: #263957;
-}
-
-@media (max-width: 991px) {
-
-    .sidebar {
-        width: 270px;
-        transform: translateX(-100%);
-    }
-
-    .sidebar-toggle:checked ~ .sidebar {
-        transform: translateX(0);
-    }
-
-    .sidebar-button {
-        top: 15px;
-        left: 15px;
-    }
-
-    .sidebar-toggle:checked ~ .sidebar-button {
-        left: 15px;
-    }
-
-    .main-content,
-    .sidebar-toggle:checked ~ .main-content {
-        margin-left: 0;
-    }
-
-    .theme-button {
-        top: 15px;
-        right: 15px;
-        width: 50px;
-        height: 50px;
-    }
-}
 .sidebar-badge {
-    margin-left: auto;
-    min-width: 22px;
-    height: 22px;
-    padding: 0 7px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50px;
-    background: #dc3545;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
+    margin-left: auto; min-width: 22px; height: 22px; padding: 0 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50px; background: #dc3545; color: #fff;
+    font-size: 12px; font-weight: 700;
     box-shadow: 0 3px 10px rgba(220, 53, 69, .4);
     animation: badgePulse 1.6s ease-in-out infinite;
 }
+@keyframes badgePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
 
-@keyframes badgePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.12); }
+.sidebar-user {
+    margin-top: auto; padding-top: 15px;
+    border-top: 1px solid rgba(13, 110, 253, .15);
+}
+.sidebar-usercard {
+    margin-bottom: 10px; padding: 12px 14px; border-radius: 11px;
+    background: #d6e8ff; color: #17324d; font-size: 13px; line-height: 1.5;
+}
+.sidebar-usercard strong { display: block; font-size: 15px; }
+
+.sidebar-logout {
+    justify-content: center; border: 1px solid #dc3545;
+    color: #dc3545; font-weight: 600;
+}
+.sidebar-logout:hover { background: #dc3545; color: #fff; transform: none; }
+
+.sidebar-button {
+    position: fixed; top: 18px; left: 275px; width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border: none; border-radius: 11px; background: #eaf3ff; color: #0d6efd;
+    font-size: 22px; cursor: pointer; z-index: 9998;
+    box-shadow: 0 5px 15px rgba(13, 110, 253, .12);
+    transition: left .3s ease, background .2s ease, transform .2s ease;
+}
+.sidebar-button:hover { background: #d6e8ff; transform: translateY(-2px); }
+.sidebar-toggle:checked ~ .sidebar-button { left: 18px; }
+
+.main-content { min-height: 100vh; margin-left: 260px; transition: margin-left .3s ease; }
+.sidebar-toggle:checked ~ .main-content { margin-left: 0; }
+
+.theme-button {
+    position: fixed; top: 18px; right: 20px; width: 54px; height: 54px;
+    border-radius: 50%; background: #ffffff; border: none; cursor: pointer;
+    z-index: 99999; overflow: hidden;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, .35), 0 8px 20px rgba(0, 0, 0, .15);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+.theme-button::before {
+    content: ""; position: absolute; width: 43px; height: 22px; top: 8px; left: 1px;
+    border-top: 4px solid #0d6efd; border-radius: 50%; transform: rotate(35deg);
+}
+.theme-button::after {
+    content: ""; position: absolute; width: 37px; height: 19px; bottom: 7px; right: 0;
+    border-bottom: 4px solid #ffc107; border-radius: 50%; transform: rotate(-35deg);
+}
+.theme-button:hover { transform: rotate(12deg) scale(1.08); }
+
+/* MODE GELAP */
+:root:has(#themeToggle:checked) .sidebar { background: #172033; color: #fff; box-shadow: 4px 0 20px rgba(0,0,0,.25); }
+:root:has(#themeToggle:checked) .sidebar-brand,
+:root:has(#themeToggle:checked) .sidebar-brand:hover { color: #fff; }
+:root:has(#themeToggle:checked) .sidebar-link { color: #d7e3f0; }
+:root:has(#themeToggle:checked) .sidebar-link:hover { background: #263957; color: #72aaff; }
+:root:has(#themeToggle:checked) .sidebar-link.active { background: #29456d; color: #8bbcff; }
+:root:has(#themeToggle:checked) .sidebar-label { color: #aebed0; }
+:root:has(#themeToggle:checked) .sidebar-usercard { background: #263957; color: #fff; }
+:root:has(#themeToggle:checked) .sidebar-logout { color: #ff7b88; border-color: #ff7b88; }
+:root:has(#themeToggle:checked) .sidebar-logout:hover { background: #dc3545; color: #fff; }
+:root:has(#themeToggle:checked) .sidebar-button { background: #172033; color: #72aaff; }
+:root:has(#themeToggle:checked) .theme-button { background: #263957; }
+
+@media (max-width: 991px) {
+    .sidebar { width: 270px; transform: translateX(-100%); }
+    .sidebar-toggle:checked ~ .sidebar { transform: translateX(0); }
+    .sidebar-button { top: 15px; left: 15px; }
+    .sidebar-toggle:checked ~ .sidebar-button { left: 15px; }
+    .main-content, .sidebar-toggle:checked ~ .main-content { margin-left: 0; }
+    .theme-button { top: 15px; right: 15px; width: 50px; height: 50px; }
 }
 </style>
 
 
 @php
     $currentUser = \App\Models\User::current();
-    $isAdmin = $currentUser && $currentUser->role === 'admin';
+    $isAdmin   = $currentUser && $currentUser->role === 'admin';
     $isPetugas = $currentUser && $currentUser->role === 'petugas';
 
     $jumlahPending = 0;
 
-    if ($isAdmin) {
+    if ($isAdmin || $isPetugas) {
         try {
-            $jumlahPending = count(
-                \App\Models\Peminjaman::where('status', 'Pending')->get()
-            );
+            $jumlahPending = count(\App\Models\Peminjaman::where('status', 'Pending')->get());
         } catch (\Throwable $e) {
             $jumlahPending = 0;
         }
     }
-@endphps
+@endphp
+
 
 <input type="checkbox" id="sidebarToggle" class="sidebar-toggle" autocomplete="off">
 <input type="checkbox" id="themeToggle" class="theme-checkbox" autocomplete="off">
@@ -441,13 +224,12 @@ body {
 
                 <a href="{{ route('peminjaman.index') }}"
                    class="sidebar-link {{ is_route('peminjaman.index') ? 'active' : '' }}">
-                   <span class="sidebar-icon">📦</span>
-                   <span>Peminjaman</span>
-
-    @if ($jumlahPending > 0)
-        <span class="sidebar-badge">{{ $jumlahPending > 99 ? '99+' : $jumlahPending }}</span>
-    @endif
-</a>
+                    <span class="sidebar-icon">📦</span>
+                    <span>Peminjaman</span>
+                    @if ($jumlahPending > 0)
+                        <span class="sidebar-badge">{{ $jumlahPending > 99 ? '99+' : $jumlahPending }}</span>
+                    @endif
+                </a>
 
                 <a href="{{ route('pengembalian.index') }}"
                    class="sidebar-link {{ is_route('pengembalian.index') ? 'active' : '' }}">
@@ -457,41 +239,45 @@ body {
 
                 <a href="{{ route('admin.log') }}"
                    class="sidebar-link {{ is_route('admin.log') ? 'active' : '' }}">
-                   <span class="sidebar-icon">📜</span>
-                   <span>Log Aktivitas</span>
+                    <span class="sidebar-icon">📜</span>
+                    <span>Log Aktivitas</span>
                 </a>
 
+            @elseif ($isPetugas)
 
-@elseif ($isPetugas)
+                {{-- MENU PETUGAS --}}
 
-    <a href="{{ route('petugas.persetujuan') }}"
-       class="sidebar-link {{ is_route('petugas.persetujuan') ? 'active' : '' }}">
-        <span class="sidebar-icon">✅</span>
-        <span>Persetujuan</span>
-    </a>
+                <a href="{{ route('petugas.persetujuan') }}"
+                   class="sidebar-link {{ is_route('petugas.persetujuan') ? 'active' : '' }}">
+                    <span class="sidebar-icon">✅</span>
+                    <span>Persetujuan</span>
+                    @if ($jumlahPending > 0)
+                        <span class="sidebar-badge">{{ $jumlahPending > 99 ? '99+' : $jumlahPending }}</span>
+                    @endif
+                </a>
 
-        @if ($jumlahPending > 0)
-            <span class="sidebar-badge">{{ $jumlahPending > 99 ? '99+' : $jumlahPending }}</span>
-        @endif
-    </a>
-   
-    <a href="{{ route('petugas.pemantauan') }}"
-       class="sidebar-link {{ is_route('petugas.pemantauan') ? 'active' : '' }}">
-       <span class="sidebar-icon">🔍</span>
-       <span>Pemantauan</span>
-    </a>
+                <a href="{{ route('petugas.pemantauan') }}"
+                   class="sidebar-link {{ is_route('petugas.pemantauan') ? 'active' : '' }}">
+                    <span class="sidebar-icon">🔍</span>
+                    <span>Pemantauan</span>
+                </a>
 
-@else
+                <a href="{{ route('petugas.laporan') }}"
+                   class="sidebar-link {{ is_route('petugas.laporan') ? 'active' : '' }}">
+                    <span class="sidebar-icon">🖨️</span>
+                    <span>Laporan</span>
+                </a>
+
+            @else
 
                 {{-- MENU PEMINJAM --}}
 
                 <a href="{{ route('alat.katalog') }}"
                    class="sidebar-link {{ is_route('alat.katalog') ? 'active' : '' }}">
-                    <span class="sidebar-icon">🏷️</span>
+                    <span class="sidebar-icon">🏐</span>
                     <span>Katalog Alat</span>
                 </a>
 
-                
                 <a href="{{ route('peminjam.riwayat') }}"
                    class="sidebar-link {{ is_route('peminjam.riwayat') ? 'active' : '' }}">
                     <span class="sidebar-icon">🕘</span>
@@ -499,7 +285,7 @@ body {
                 </a>
 
                 <a href="{{ route('peminjam.pengembalian') }}"
-                    class="sidebar-link {{ is_route('peminjam.pengembalian') ? 'active' : '' }}">
+                   class="sidebar-link {{ is_route('peminjam.pengembalian') ? 'active' : '' }}">
                     <span class="sidebar-icon">↩️</span>
                     <span>Pengembalian Alat</span>
                 </a>
@@ -513,35 +299,17 @@ body {
     @if ($currentUser)
         <div class="sidebar-user">
 
-            @if ($isAdmin)
+            <div class="sidebar-usercard">
+                <strong>{{ $currentUser->username }}</strong>
+                {{ ucfirst($currentUser->role) }}
+            </div>
 
-                <div class="sidebar-username">
-                    👤 {{ $currentUser->username }}
-                </div>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="sidebar-link">
-                        <span class="sidebar-icon">🚪</span>
-                        <span>Logout</span>
-                    </button>
-                </form>
-
-            @else
-
-                <div class="sidebar-usercard">
-                    <strong>{{ $currentUser->username }}</strong>
-                    {{ ucfirst($currentUser->role) }}
-                </div>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="sidebar-link sidebar-logout">
-                        <span>🚪 Logout</span>
-                    </button>
-                </form>
-
-            @endif
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="sidebar-link sidebar-logout">
+                    <span>🚪 Logout</span>
+                </button>
+            </form>
 
         </div>
     @endif

@@ -24,22 +24,26 @@ class DashboardController extends Controller
     }
 
     public function admin()
-    {
-        $user = User::current();
-        $semua = Peminjaman::all();
+{
+    $semua = Peminjaman::all();
 
-        $menunggu = 0;
-        $dipinjam = 0;
-        $selesai  = 0;
+    $menunggu = 0;
+    $dipinjam = 0;
 
-        foreach ($semua as $p) {
-            if ($p->status === 'Pending')      $menunggu++;
-            if ($p->status === 'Disetujui')    $dipinjam++;
-            if ($p->status === 'Dikembalikan') $selesai++;
-        }
-
-        return view('admin.dashboard', compact('user', 'menunggu', 'dipinjam', 'selesai'));
+    foreach ($semua as $p) {
+        if ($p->status === 'Pending')   $menunggu++;
+        if ($p->status === 'Disetujui') $dipinjam++;
     }
+
+    $totalLog = count(\App\Models\LogAktivitas::all());
+
+    return view('core.admin.dashboard', [
+        'user'     => User::current(),
+        'menunggu' => $menunggu,
+        'dipinjam' => $dipinjam,
+        'totalLog' => $totalLog,
+    ]);
+}
 
     public function petugas()
     {

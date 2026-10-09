@@ -5,219 +5,238 @@
 @section('content')
 
 <style>
-html:has(.pm-page), html:has(.pm-page) body { overflow: hidden; }
-.pm-page { position: fixed; top: 0; right: 0; bottom: 0; left: 260px; z-index: 1; overflow-y: auto; scrollbar-width: none; background: var(--bs-body-bg); color: var(--bs-body-color); transition: left .3s ease; }
-.pm-page::-webkit-scrollbar { display: none; }
-:root:has(#sidebarToggle:checked) .pm-page { left: 0; }
-.pm-content { width: 100%; max-width:@extends('layouts.app')
+html:has(.pm-hero),
+html:has(.pm-hero) body { overflow: hidden; }
 
-@section('title', config('app.name') . ' -- Dashboard')
-
-@section('content')
-
-<style>
-html:has(.pm-page), html:has(.pm-page) body { overflow: hidden; }
-
-.pm-page {
-    position: fixed; top: 0; right: 0; bottom: 0; left: 260px;
-    z-index: 1; overflow-x: hidden; overflow-y: auto; scrollbar-width: none;
+.pm-hero {
+    position: fixed; top: 0; right: 0; bottom: 0; left: 260px; z-index: 1;
+    display: flex; overflow-x: hidden; overflow-y: auto; scrollbar-width: none;
     background: linear-gradient(135deg, var(--bs-body-bg), var(--bs-secondary-bg));
     color: var(--bs-body-color);
     transition: left .3s ease;
 }
-.pm-page::-webkit-scrollbar { display: none; }
-:root:has(#sidebarToggle:checked) .pm-page { left: 0; }
+.pm-hero::-webkit-scrollbar { display: none; }
+:root:has(#sidebarToggle:checked) .pm-hero { left: 0; }
 
-.pm-page::before { content: ""; position: fixed; width: 420px; height: 420px; background: rgba(13,110,253,.08); border-radius: 50%; top: -180px; left: -130px; pointer-events: none; }
-.pm-page::after  { content: ""; position: fixed; width: 330px; height: 330px; background: rgba(255,193,7,.10); border-radius: 50%; bottom: -160px; right: -100px; pointer-events: none; }
+.pm-hero::before {
+    content: ""; position: fixed; width: 420px; height: 420px;
+    background: rgba(13,110,253,.08); border-radius: 50%;
+    top: -180px; left: -130px; pointer-events: none;
+}
+.pm-hero::after {
+    content: ""; position: fixed; width: 330px; height: 330px;
+    background: rgba(255,193,7,.10); border-radius: 50%;
+    bottom: -160px; right: -100px; pointer-events: none;
+}
 
-.pm-content { position: relative; z-index: 2; width: 100%; max-width: 1000px; margin: 0 auto; padding: 80px 24px 40px; }
+.pm-content {
+    position: relative; z-index: 2; width: 100%; max-width: 960px;
+    margin: auto; text-align: center; padding: 80px 20px 40px;
+}
 
-.badge-volley { background: linear-gradient(135deg, #0d6efd, #084298); color: #fff; font-weight: 600; box-shadow: 0 6px 18px rgba(13,110,253,.25); }
-.volley-line { width: 65px; height: 4px; margin: 0 0 16px; border-radius: 10px; background: linear-gradient(90deg, #0d6efd, #ffc107); }
+.pm-welcome {
+    margin: 0 0 28px; padding: 36px 30px; border-radius: 22px;
+    background: linear-gradient(135deg, rgba(13,110,253,.10), rgba(255,193,7,.10));
+    border: 1px solid var(--bs-border-color);
+    box-shadow: 0 12px 35px rgba(0,0,0,.08);
+}
+.badge-pm {
+    background: linear-gradient(135deg, #0d6efd, #084298); color: #fff;
+    font-weight: 600; box-shadow: 0 6px 18px rgba(13,110,253,.25);
+}
 .pm-title { color: var(--bs-heading-color); letter-spacing: -1px; }
-.text-volley { background: linear-gradient(90deg, #0d6efd, #084298); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.pm-desc { color: var(--bs-secondary-color); }
+.text-pm {
+    background: linear-gradient(90deg, #0d6efd, #084298);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.pm-description { color: var(--bs-secondary-color); line-height: 1.8; }
+.pm-line {
+    width: 65px; height: 4px; margin: 0 auto 22px; border-radius: 10px;
+    background: linear-gradient(90deg, #0d6efd, #ffc107);
+}
 
-.btn-volley { border: none; border-radius: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #0d6efd, #084298); box-shadow: 0 7px 18px rgba(13,110,253,.22); transition: all .3s ease; }
-.btn-volley:hover { color: #fff; transform: translateY(-3px); box-shadow: 0 11px 25px rgba(13,110,253,.32); }
-.btn-outline-volley { border-radius: 12px; font-weight: 700; color: #b38600; border: 1px solid #ffc107; background: transparent; transition: all .3s ease; }
-.btn-outline-volley:hover { color: #102a43; background: linear-gradient(135deg, #ffc107, #ffda44); border-color: #ffc107; transform: translateY(-3px); }
+.pm-stat {
+    display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+    border-radius: 16px; background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    box-shadow: 0 6px 18px rgba(0,0,0,.06); text-align: left; height: 100%;
+}
+.pm-stat-icon {
+    width: 44px; height: 44px; flex-shrink: 0; border-radius: 13px; display: flex;
+    align-items: center; justify-content: center; font-size: 20px;
+    background: linear-gradient(135deg, #ffc107, #ffda44);
+}
+.pm-stat small {
+    display: block; color: var(--bs-secondary-color); font-size: 11px;
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+}
+.pm-stat strong { color: #0d6efd; font-size: 22px; line-height: 1.1; }
+.pm-stat strong.denda { color: #dc3545; font-size: 18px; }
 
-.stat { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 1.6rem; height: 100%; border-radius: 24px; background: color-mix(in srgb, var(--bs-body-bg) 90%, transparent); border: 1px solid var(--bs-border-color); box-shadow: 0 12px 35px rgba(0,0,0,.08); backdrop-filter: blur(10px); }
-.stat-label { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--bs-secondary-color); }
-.stat-num { font-size: 2.2rem; font-weight: 800; line-height: 1.2; }
-.stat-sub { color: var(--bs-secondary-color); font-size: .9rem; }
-.stat-icon { width: 58px; height: 58px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+.pm-menu { margin: 25px auto 0; }
+.section-subtitle {
+    font-size: 18px; font-weight: 700; color: var(--bs-heading-color);
+    text-align: left; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;
+}
+.section-subtitle::before {
+    content: ""; width: 4px; height: 18px; background: #0d6efd; border-radius: 4px;
+}
 
-.c-yellow { color: #b38600; } .i-yellow { background: rgba(255,193,7,.18); }
-.c-blue   { color: #0d6efd; } .i-blue   { background: rgba(13,110,253,.12); }
-.c-green  { color: #198754; } .i-green  { background: rgba(25,135,84,.15); }
-.c-red    { color: #dc3545; } .i-red    { background: rgba(220,53,69,.15); }
+.pm-card {
+    display: flex; flex-direction: column; height: 100%; padding: 22px;
+    border-radius: 16px; background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color); color: var(--bs-body-color);
+    text-decoration: none; box-shadow: 0 6px 18px rgba(0,0,0,.06); transition: all .3s ease;
+}
+.pm-card:hover {
+    transform: translateY(-5px); border-color: #0d6efd;
+    box-shadow: 0 12px 25px rgba(13,110,253,.15); color: var(--bs-body-color);
+}
+.pm-icon {
+    width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px; border-radius: 14px;
+    background: linear-gradient(135deg, #0d6efd, #084298); color: #fff; font-size: 20px;
+    box-shadow: 0 6px 15px rgba(13,110,253,.20);
+}
+.pm-card h2 { color: var(--bs-heading-color); }
+.pm-card p { color: var(--bs-secondary-color); }
 
-.volleyball { position: fixed; width: 85px; height: 85px; border-radius: 50%; background: var(--bs-tertiary-bg); box-shadow: 0 12px 28px rgba(0,0,0,.15); z-index: 1; opacity: .9; pointer-events: none; bottom: 6%; right: 5%; animation: floating 4s ease-in-out infinite; }
-.volleyball::before { content: ""; position: absolute; width: 68px; height: 34px; border-top: 5px solid #0d6efd; border-radius: 50%; top: 14px; left: 4px; transform: rotate(35deg); }
-.volleyball::after  { content: ""; position: absolute; width: 56px; height: 28px; border-bottom: 5px solid #ffc107; border-radius: 50%; bottom: 14px; right: 4px; transform: rotate(-35deg); }
-@keyframes floating { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(8deg); } }
+.volleyball {
+    position: fixed; width: 95px; height: 95px; border-radius: 50%;
+    background: var(--bs-tertiary-bg); border: none;
+    box-shadow: 0 12px 28px rgba(0,0,0,.15); z-index: 1; opacity: .95; pointer-events: none;
+}
+.volleyball::before {
+    content: ""; position: absolute; width: 76px; height: 38px;
+    border-top: 6px solid #0d6efd; border-radius: 50%; top: 15px; left: 5px; transform: rotate(35deg);
+}
+.volleyball::after {
+    content: ""; position: absolute; width: 62px; height: 31px;
+    border-bottom: 6px solid #ffc107; border-radius: 50%; bottom: 15px; right: 5px; transform: rotate(-35deg);
+}
+.ball-one {
+    top: 12%; left: calc(260px + 5%);
+    animation: floating 4s ease-in-out infinite; transition: left .3s ease;
+}
+:root:has(#sidebarToggle:checked) .ball-one { left: 5%; }
+.ball-two {
+    bottom: 10%; right: 6%; width: 70px; height: 70px;
+    animation: floating 5s ease-in-out infinite reverse;
+}
+.ball-two::before { width: 56px; height: 28px; border-width: 4px; }
+.ball-two::after { width: 46px; height: 23px; border-width: 4px; }
 
-@media (max-width: 991px) { .pm-page, :root:has(#sidebarToggle:checked) .pm-page { left: 0; } }
-@media (max-width: 768px) { .pm-content { padding: 80px 15px 30px; } .volleyball { display: none; } }
+@keyframes floating {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(8deg); }
+}
+
+@media (max-width: 991px) {
+    .pm-hero, :root:has(#sidebarToggle:checked) .pm-hero { left: 0; }
+    .ball-one, :root:has(#sidebarToggle:checked) .ball-one { left: 4%; }
+}
+@media (max-width: 768px) {
+    .pm-content { padding: 80px 15px 30px; }
+    .pm-welcome { padding: 24px 18px; }
+    .volleyball { display: none; }
+}
 </style>
 
-<section class="pm-page">
+<section class="pm-hero">
 
-    <div class="volleyball"></div>
+    <div class="volleyball ball-one"></div>
+    <div class="volleyball ball-two"></div>
 
     <div class="pm-content">
 
-        <div class="mb-4">
-            <span class="badge rounded-pill badge-volley px-4 py-2 mb-3">🏐 ROLE: PEMINJAM</span>
-            <div class="volley-line"></div>
-            <h1 class="display-5 fw-bold mb-2 pm-title">
-                Halo, <span class="text-volley">{{ $user->username }}</span>!
+        {{-- CARD SAMBUTAN --}}
+        <div class="pm-welcome">
+
+            <span class="badge rounded-pill badge-pm px-4 py-2 mb-4">
+                🏐 AREA PEMINJAM
+            </span>
+
+            <div class="pm-line"></div>
+
+            <h1 class="display-5 fw-bold mb-3 pm-title">
+                Halo,
+                <span class="text-pm">{{ $user->username ?? 'Peminjam' }}</span>
             </h1>
-            <p class="pm-desc mb-4">
-                Selamat datang di Sistem Peminjaman Alat Olahraga Voli. Pantau status peminjaman dan tagihan dendamu di sini.
+
+            <p class="lead pm-description mx-auto mb-0" style="max-width: 520px;">
+                Selamat datang di Sistem Peminjaman Alat Olahraga Voli.
+                Pantau status peminjaman dan tagihan dendamu di sini.
             </p>
-            <div class="d-flex flex-wrap gap-2">
-                <a href="{{ route('peminjam.ajukan') }}" class="btn btn-volley btn-lg px-4">+ Ajukan Peminjaman</a>
+
+        </div>
+
+        {{-- RINGKASAN --}}
+        <div class="row g-3 mb-2">
+            <div class="col-6 col-lg-3">
+                <div class="pm-stat">
+                    <div class="pm-stat-icon">⏳</div>
+                    <div><small>Menunggu</small><strong>{{ $menunggu ?? 0 }}</strong></div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="pm-stat">
+                    <div class="pm-stat-icon">📦</div>
+                    <div><small>Dipinjam</small><strong>{{ $dipinjam ?? 0 }}</strong></div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="pm-stat">
+                    <div class="pm-stat-icon">✅</div>
+                    <div><small>Selesai</small><strong>{{ $selesai ?? 0 }}</strong></div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="pm-stat">
+                    <div class="pm-stat-icon">⚠️</div>
+                    <div><small>Total denda</small><strong class="denda">Rp {{ number_format($denda ?? 0, 0, ',', '.') }}</strong></div>
+                </div>
             </div>
         </div>
 
-        <div class="row g-3">
+        {{-- MENU --}}
+        <div class="pm-menu">
+            <h3 class="section-subtitle">Menu Peminjam</h3>
+            <div class="row g-3">
 
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Menunggu</div>
-                        <div class="stat-num c-yellow">{{ $menunggu }}</div>
-                        <div class="stat-sub">Persetujuan petugas</div>
-                    </div>
-                    <div class="stat-icon i-yellow">⏳</div>
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('peminjam.ajukan') }}" class="pm-card">
+                        <div class="pm-icon">➕</div>
+                        <h2 class="h6 fw-bold mb-2">Ajukan Peminjaman</h2>
+                        <p class="small mb-0">Pilih alat, jumlah, dan tanggal kembali.</p>
+                    </a>
                 </div>
-            </div>
 
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Dipinjam</div>
-                        <div class="stat-num c-blue">{{ $dipinjam }}</div>
-                        <div class="stat-sub">Alat yang kamu bawa</div>
-                    </div>
-                    <div class="stat-icon i-blue">📦</div>
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('peminjam.riwayat') }}" class="pm-card">
+                        <div class="pm-icon">🕘</div>
+                        <h2 class="h6 fw-bold mb-2">Riwayat Peminjaman</h2>
+                        <p class="small mb-0">Lihat status semua pengajuanmu.</p>
+                    </a>
                 </div>
-            </div>
 
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Selesai</div>
-                        <div class="stat-num c-green">{{ $selesai }}</div>
-                        <div class="stat-sub">Peminjaman selesai</div>
-                    </div>
-                    <div class="stat-icon i-green">✅</div>
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('peminjam.pengembalian') }}" class="pm-card">
+                        <div class="pm-icon">🔄</div>
+                        <h2 class="h6 fw-bold mb-2">Pengembalian Alat</h2>
+                        <p class="small mb-0">Cek batas kembali dan denda.</p>
+                    </a>
                 </div>
-            </div>
 
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Total Denda</div>
-                        <div class="stat-num c-red">Rp {{ number_format($denda, 0, ',', '.') }}</div>
-                        <div class="stat-sub">Tagihan denda</div>
-                    </div>
-                    <div class="stat-icon i-red">⚠️</div>
-                </div>
             </div>
-
         </div>
+
+        <p class="text-secondary small mt-4 mb-0">
+            Halaman ini hanya dapat diakses oleh role
+            <strong>peminjam</strong>.
+        </p>
 
     </div>
-</section>
 
-@endsection 1000px; margin: 0 auto; padding: 80px 24px 40px; }
-
-.hero { position: relative; overflow: hidden; border-radius: 28px; padding: 2.2rem; color: #fff; background: linear-gradient(135deg, #0f7a4d, #055a3b); box-shadow: 0 14px 35px rgba(5, 90, 59, .3); }
-.hero::after { content: ""; position: absolute; width: 380px; height: 380px; border: 1px solid rgba(255,255,255,.15); border-radius: 50%; top: -200px; right: -100px; }
-.hero-badge { display: inline-block; padding: 6px 14px; border-radius: 50px; background: #d4f24a; color: #064e32; font-weight: 700; font-size: .8rem; margin-bottom: 1rem; }
-.hero h1 { font-weight: 800; }
-.hero p { color: rgba(255,255,255,.85); max-width: 640px; }
-.hero-btn { display: inline-block; padding: .8rem 1.6rem; border-radius: 50px; background: #fff; color: #064e32; font-weight: 700; text-decoration: none; transition: transform .2s; }
-.hero-btn:hover { transform: translateY(-3px); color: #064e32; }
-
-.stat { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 1.6rem; border-radius: 22px; background: var(--bs-tertiary-bg); border: 1px solid var(--bs-border-color); height: 100%; }
-.stat-label { font-size: .8rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--bs-secondary-color); }
-.stat-num { font-size: 2.2rem; font-weight: 800; line-height: 1.2; }
-.stat-sub { color: var(--bs-secondary-color); }
-.stat-icon { width: 58px; height: 58px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
-
-.c-warn  { color: #f5b301; } .i-warn  { background: rgba(245,179,1,.15); }
-.c-green { color: #198754; } .i-green { background: rgba(25,135,84,.15); }
-.c-red   { color: #dc3545; } .i-red   { background: rgba(220,53,69,.15); }
-
-@media (max-width: 991px) { .pm-page, :root:has(#sidebarToggle:checked) .pm-page { left: 0; } }
-@media (max-width: 768px) { .pm-content { padding: 80px 15px 30px; } }
-</style>
-
-<section class="pm-page">
-    <div class="pm-content">
-
-        <div class="hero mb-4">
-            <span class="hero-badge">🛡️ ROLE: PEMINJAM</span>
-            <h1 class="mb-2">Halo, {{ $user->username }}! 👋</h1>
-            <p class="mb-4">Selamat datang di Sistem Peminjaman Alat. Silakan pantau status peminjaman dan tagihan denda Anda melalui ringkasan di bawah ini.</p>
-            <a href="{{ route('peminjam.ajukan') }}" class="hero-btn">＋ Ajukan Peminjaman Baru</a>
-        </div>
-
-        <div class="row g-3">
-
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Menunggu</div>
-                        <div class="stat-num c-warn">{{ $menunggu }}</div>
-                        <div class="stat-sub">Persetujuan petugas</div>
-                    </div>
-                    <div class="stat-icon i-warn">⏳</div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Dipinjam</div>
-                        <div class="stat-num c-green">{{ $dipinjam }}</div>
-                        <div class="stat-sub">Alat yang Anda bawa</div>
-                    </div>
-                    <div class="stat-icon i-green">📦</div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Selesai</div>
-                        <div class="stat-num c-green">{{ $selesai }}</div>
-                        <div class="stat-sub">Peminjaman selesai</div>
-                    </div>
-                    <div class="stat-icon i-green">✅</div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="stat">
-                    <div>
-                        <div class="stat-label">Total Denda</div>
-                        <div class="stat-num c-red">Rp {{ number_format($denda, 0, ',', '.') }}</div>
-                        <div class="stat-sub">Tagihan denda</div>
-                    </div>
-                    <div class="stat-icon i-red">⚠️</div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
 </section>
 
 @endsection

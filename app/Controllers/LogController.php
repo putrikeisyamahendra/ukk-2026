@@ -11,9 +11,16 @@ class LogController extends Controller
 {
     public function index(Request $request)
     {
-        $data  = LogAktivitas::orderBy('id_log', 'desc')->paginate(15);
-        $users = User::all();
+        $query = LogAktivitas::query();
 
-        return view('admin.log', compact('data', 'users'));
+        if ($request->cari) {
+            $query->where('aktivitas', 'like', '%' . $request->cari . '%');
+        }
+
+        $data   = $query->orderBy('id_log', 'desc')->paginate(15);
+        $semua  = LogAktivitas::all();
+        $users  = User::all();
+
+        return view('admin.log', compact('data', 'semua', 'users'));
     }
 }

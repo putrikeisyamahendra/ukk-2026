@@ -59,6 +59,7 @@ Route::get('/log', [LogController::class, 'index'])->name('admin.log');
 
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
     Route::get('/database/export', [DatabaseController::class, 'export'])->name('admin.database.export');
     
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
@@ -129,6 +130,7 @@ Route::group(['prefix' => 'petugas', 'middleware' => 'petugas'], function () {
 
     Route::get('/pemantauan', [PetugasController::class, 'pemantauan'])->name('petugas.pemantauan');
     Route::put('/pemantauan/{id_pengembalian}/kondisi', [PetugasController::class, 'kondisi'])->name('petugas.kondisi');
+    Route::get('/laporan', [PetugasController::class, 'laporan'])->name('petugas.laporan');
 });
 
 /*
@@ -148,31 +150,3 @@ Route::group(['prefix' => 'petugas', 'middleware' => 'petugas'], function () {
 |     Route::get('/dashboard', [DashboardController::class, 'index']);
 | });
 */
-
-Route::get('/isi-stok', function () {
-    $hasil = [];
-
-    try {
-        $kolom = \Sakuci\Database\Connection::run('SHOW COLUMNS FROM alat')->fetchAll();
-        $nama = [];
-        foreach ($kolom as $k) {
-            $k = (array) $k;
-            $nama[] = $k['Field'] ?? reset($k);
-        }
-        $hasil[] = 'Kolom di tabel alat: ' . implode(', ', $nama);
-
-        if (! in_array('stok', $nama)) {
-            \Sakuci\Database\Connection::run('ALTER TABLE alat ADD COLUMN stok INT NOT NULL DEFAULT 0');
-            $hasil[] = 'Kolom stok BELUM ada, sekarang sudah ditambahkan.';
-        } else {
-            $hasil[] = 'Kolom stok sudah ada.';
-        }
-
-        \Sakuci\Database\Connection::run('UPDATE alat SET stok = 50');
-        $hasil[] = 'Selesai, semua stok jadi 50.';
-    } catch (\Throwable $e) {
-        $hasil[] = 'Gagal: ' . $e->getMessage();
-    }
-
-    return implode('<br>', $hasil);
-});

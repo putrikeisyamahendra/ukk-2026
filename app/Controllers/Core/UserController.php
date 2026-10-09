@@ -34,5 +34,21 @@ class UserController extends Controller
 
         return back()->with('success', 'User "' . $data['username'] . '" berhasil ditambahkan.');
     }
+
+        public function destroy(Request $request, $id)
+    {
+        $me = User::current();
+
+        if ((int) $me->id === (int) $id) {
+            return redirect(route('admin.users.index'))
+                ->with('error', 'Kamu tidak bisa menghapus akunmu sendiri.');
+        }
+
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect(route('admin.users.index'))
+            ->with('success', 'User berhasil dihapus.');
+    }
 }
 
