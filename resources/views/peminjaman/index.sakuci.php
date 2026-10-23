@@ -51,6 +51,21 @@
 
 .peminjaman-alert { border: none; border-radius: 14px; box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06); }
 
+/* SEARCH BAR */
+.peminjaman-search {
+    display: flex; align-items: center; gap: 10px; padding: 15px; margin-bottom: 1.5rem;
+    border-radius: 20px; background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+}
+.peminjaman-search input {
+    flex: 1; min-width: 0; height: 46px; padding: .7rem 1rem; border-radius: 12px;
+    border: 1px solid var(--bs-border-color); background-color: var(--bs-body-bg);
+    color: var(--bs-body-color); outline: none;
+}
+.peminjaman-search input::placeholder { color: var(--bs-secondary-color); }
+.peminjaman-search input:focus { border-color: #0d6efd; box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12); }
+.peminjaman-search button { height: 46px; padding: 0 1.25rem; }
+
 .peminjaman-card {
     overflow: hidden; border-radius: 24px;
     background: color-mix(in srgb, var(--bs-body-bg) 92%, transparent);
@@ -121,10 +136,10 @@
     border-radius: 50%; margin-bottom: 10px; color: var(--bs-secondary-color);
 }
 
-/* Bola voli (ganti 'border: 4px solid ...' jadi 'border: none' kalau tidak mau ada garis) */
+/* BOLA VOLI (tanpa garis hitam) */
 .volleyball {
     position: absolute; width: 105px; height: 105px; border-radius: 50%;
-    background: var(--bs-body-bg); border: 4px solid var(--bs-heading-color);
+    background: var(--bs-tertiary-bg); border: none;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15); z-index: 1; opacity: 0.95;
 }
 .volleyball::before {
@@ -163,6 +178,8 @@
     .peminjaman-header .volley-line { margin-left: auto; margin-right: auto; }
     .peminjaman-header .btn-volley { width: 100%; }
     .peminjaman-card-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .peminjaman-search { flex-direction: column; }
+    .peminjaman-search input, .peminjaman-search button { width: 100%; }
     .volleyball { width: 65px; height: 65px; }
     .volleyball::before { width: 52px; height: 25px; border-width: 4px; }
     .volleyball::after { width: 45px; height: 20px; border-width: 4px; }
@@ -230,6 +247,13 @@
     @if (session('error'))
         <div class="alert alert-danger peminjaman-alert mb-4">⚠️ {{ session('error') }}</div>
     @endif
+
+    {{-- SEARCH --}}
+    <form method="GET" action="{{ route('peminjaman.index') }}" class="peminjaman-search">
+        <input type="text" name="search" value="{{ request('search') }}"
+               placeholder="Cari peminjam atau nama alat...">
+        <button type="submit" class="btn btn-volley">🔍 Cari</button>
+    </form>
 
     {{-- TABEL --}}
     <div class="peminjaman-card">
@@ -307,16 +331,26 @@
 
                             <td>
                                 @if ($peminjaman->status == 'Pending')
-    <span class="status-badge st-pending"><i class="bi bi-hourglass-split me-1"></i>Pending</span>
-@elseif ($peminjaman->status == 'Disetujui')
-    <span class="status-badge st-setuju"><i class="bi bi-check2-circle me-1"></i>Disetujui</span>
-@elseif ($peminjaman->status == 'Ditolak')
-    <span class="status-badge st-tolak"><i class="bi bi-x-circle me-1"></i>Ditolak</span>
-@elseif ($peminjaman->status == 'Dipinjam')
-    <span class="status-badge st-pinjam"><i class="bi bi-box-arrow-up-right me-1"></i>Dipinjam</span>
-@else
-    <span class="status-badge st-kembali"><i class="bi bi-check-circle-fill me-1"></i>Dikembalikan</span>
-@endif
+                                    <span class="status-badge st-pending"><i class="bi bi-hourglass-split me-1"></i>Pending</span>
+                                @elseif ($peminjaman->status == 'Disetujui')
+                                    <span class="status-badge st-setuju"><i class="bi bi-check2-circle me-1"></i>Disetujui</span>
+                                @elseif ($peminjaman->status == 'Ditolak')
+                                    <span class="status-badge st-tolak"><i class="bi bi-x-circle me-1"></i>Ditolak</span>
+                                @elseif ($peminjaman->status == 'Dipinjam')
+                                    <span class="status-badge st-pinjam"><i class="bi bi-box-arrow-up-right me-1"></i>Dipinjam</span>
+                                @else
+                                    <span class="status-badge st-kembali"><i class="bi bi-check-circle-fill me-1"></i>Dikembalikan</span>
+                                @endif
+                            </td>
+
+                            <td>
+                                @if (!empty($peminjaman->denda) && $peminjaman->denda > 0)
+                                    <span class="fw-semibold text-danger">
+                                        Rp {{ number_format($peminjaman->denda, 0, ',', '.') }}
+                                    </span>
+                                @else
+                                    <span class="text-body-secondary">-</span>
+                                @endif
                             </td>
 
                             <td class="text-center">
@@ -374,8 +408,13 @@
                             <td colspan="9" class="text-center py-5 text-body-secondary">
                                 <div class="d-flex flex-column align-items-center">
                                     <div class="empty-icon"><i class="bi bi-inbox fs-2 opacity-50"></i></div>
-                                    <h6 class="fw-bold mb-1 text-body">Belum Ada Data Peminjaman</h6>
-                                    <span class="small">Data peminjaman alat yang diajukan akan muncul di sini.</span>
+                                    @if (request('search'))
+                                        <h6 class="fw-bold mb-1 text-body">Data tidak ditemukan</h6>
+                                        <span class="small">Tidak ada peminjaman dengan kata kunci <strong>"{{ request('search') }}"</strong>.</span>
+                                    @else
+                                        <h6 class="fw-bold mb-1 text-body">Belum Ada Data Peminjaman</h6>
+                                        <span class="small">Data peminjaman alat yang diajukan akan muncul di sini.</span>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

@@ -10,10 +10,37 @@ use App\Models\Peminjaman;
 class PengembalianController extends Controller
 {
     public function index(Request $request)
-    {
+{
+    $search = trim((string) $request->search);
+
+    if ($search !== '') {
+        $kata = mb_strtolower($search);
+
+        $idCocok = [];
+        foreach (Pengembalian::all() as $p) {
+            $teks = mb_strtolower(
+                $p->id_peminjaman . ' ' . $p->kondisi_barang . ' ' . $p->catatan
+            );
+            if (mb_strpos($teks, $kata) !== false) {
+                $idCocok[] = (int) $p->id_pengembalian;
+            }
+        }
+
+        if (empty($idCocok)) { $idCocok = [0]; }
+
+        $data = Pengembalian::whereIn('id_pengembalian', $idCocok)
+            ->orderBy('id_pengembalian', 'desc')
+            ->paginate(10);
+    } else {
         $data = Pengembalian::orderBy('id_pengembalian', 'desc')->paginate(10);
-        return view('pengembalian.index', compact('data'));
     }
+
+    if (method_exists($data, 'withQueryString')) {
+        $data->withQueryString();
+    }
+
+    return view('pengembalian.index', compact('data'));
+}
 
     public function create(Request $request)
     {
