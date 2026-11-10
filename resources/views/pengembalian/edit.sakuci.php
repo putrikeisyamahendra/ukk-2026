@@ -1,241 +1,642 @@
+```blade
 @extends('layouts.app')
 
 @section('title', config('app.name') . ' -- Edit Pengembalian')
 
 @section('content')
 
-<div class="container-fluid py-4 px-4">
-{{-- Header --}}
-<div class="mb-4">
-    <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="badge bg-warning-subtle text-warning-emphasis px-3 py-2 rounded-pill fw-semibold">
-            <i class="bi bi-pencil-square me-1"></i>
-            Edit Pengembalian
-        </span>
-    </div>
+<style>
+    /* ================================
+       BACKGROUND
+    ================================= */
 
-    <h3 class="fw-bold mb-1 text-body">
-        Edit Data Pengembalian
-    </h3>
+    .pengembalian-wrapper {
+        position: relative;
+        min-height: 75vh;
+        overflow: hidden;
+        border-radius: 24px;
 
-    <p class="text-body-secondary small mb-0">
-        Perbarui informasi pengembalian alat, keterlambatan, denda, dan kondisi barang.
-    </p>
-</div>
+        background: linear-gradient(
+            135deg,
+            var(--bs-body-bg),
+            var(--bs-secondary-bg)
+        );
+
+        color: var(--bs-body-color);
+        padding: 45px 30px;
+    }
+
+    .pengembalian-wrapper::before {
+        content: "";
+        position: absolute;
+        width: 420px;
+        height: 420px;
+
+        background: rgba(13, 110, 253, 0.08);
+
+        border-radius: 50%;
+        top: -180px;
+        left: -130px;
+
+        pointer-events: none;
+    }
+
+    .pengembalian-wrapper::after {
+        content: "";
+        position: absolute;
+        width: 330px;
+        height: 330px;
+
+        background: rgba(255, 193, 7, 0.10);
+
+        border-radius: 50%;
+        bottom: -160px;
+        right: -100px;
+
+        pointer-events: none;
+    }
 
 
-{{-- Card Form --}}
-<div class="card border-0 bg-body-tertiary shadow-sm rounded-4 overflow-hidden">
+    /* ================================
+       CONTENT
+    ================================= */
 
-    {{-- Card Header --}}
-    <div class="card-header bg-transparent border-bottom py-3 px-4">
+    .pengembalian-content {
+        position: relative;
+        z-index: 2;
 
-        <div class="d-flex align-items-center gap-2">
+        max-width: 850px;
+        margin: 0 auto;
+    }
 
-            <i class="bi bi-arrow-return-left text-primary fs-5"></i>
 
-           
+    /* ================================
+       HEADER
+    ================================= */
+
+    .pengembalian-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .pengembalian-badge {
+        display: inline-block;
+
+        background: linear-gradient(
+            135deg,
+            #0d6efd,
+            #084298
+        );
+
+        color: #fff;
+        font-weight: 600;
+
+        padding: 9px 22px;
+        border-radius: 50px;
+
+        box-shadow: 0 6px 18px rgba(13, 110, 253, 0.25);
+    }
+
+    .pengembalian-title {
+        color: var(--bs-heading-color);
+        font-weight: 700;
+
+        margin-top: 18px;
+        margin-bottom: 10px;
+    }
+
+    .pengembalian-title span {
+        background: linear-gradient(
+            90deg,
+            #0d6efd,
+            #084298
+        );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .pengembalian-line {
+        width: 65px;
+        height: 4px;
+
+        margin: 0 auto;
+
+        border-radius: 10px;
+
+        background: linear-gradient(
+            90deg,
+            #0d6efd,
+            #ffc107
+        );
+    }
+
+    .pengembalian-description {
+        color: var(--bs-secondary-color);
+        margin-top: 15px;
+        margin-bottom: 0;
+    }
+
+
+    /* ================================
+       FORM
+    ================================= */
+
+    .pengembalian-form {
+        background: color-mix(
+            in srgb,
+            var(--bs-body-bg) 92%,
+            transparent
+        );
+
+        border: 1px solid var(--bs-border-color);
+        border-radius: 20px;
+
+        padding: 35px;
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    .pengembalian-form label {
+        display: block;
+
+        font-weight: 600;
+        color: var(--bs-heading-color);
+
+        margin-bottom: 8px;
+    }
+
+    .pengembalian-form .form-control,
+    .pengembalian-form .form-select {
+        width: 100%;
+
+        border-radius: 11px;
+        padding: 12px 15px;
+
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+
+        border: 1px solid var(--bs-border-color);
+
+        transition: all 0.25s ease;
+    }
+
+    .pengembalian-form .form-control:focus,
+    .pengembalian-form .form-select:focus {
+        border-color: #0d6efd;
+
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+    }
+
+    .pengembalian-form textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+
+    /* ================================
+       INPUT GROUP
+    ================================= */
+
+    .pengembalian-form .input-group {
+        flex-wrap: nowrap;
+    }
+
+    .pengembalian-form .input-group .form-control {
+        min-width: 0;
+    }
+
+    .pengembalian-form .input-group-text {
+        display: flex;
+        align-items: center;
+
+        padding: 12px 15px;
+
+        background-color: var(--bs-secondary-bg);
+        color: var(--bs-body-color);
+
+        border: 1px solid var(--bs-border-color);
+        border-radius: 11px;
+    }
+
+    .pengembalian-form .input-group > .form-control:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .pengembalian-form .input-group > .form-control:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .pengembalian-form .input-group > .input-group-text:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .pengembalian-form .input-group > .input-group-text:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+
+    /* ================================
+       BUTTON
+    ================================= */
+
+    .btn-volley {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+
+        border: none;
+        border-radius: 11px;
+
+        font-weight: 700;
+        color: #fff;
+
+        background: linear-gradient(
+            135deg,
+            #0d6efd,
+            #084298
+        );
+
+        box-shadow: 0 6px 15px rgba(13, 110, 253, 0.20);
+
+        transition: all 0.3s ease;
+    }
+
+    .btn-volley:hover {
+        color: #fff;
+        transform: translateY(-2px);
+
+        box-shadow: 0 9px 20px rgba(13, 110, 253, 0.28);
+    }
+
+    .btn-volley-yellow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+
+        border: none;
+        border-radius: 11px;
+
+        font-weight: 700;
+        color: #102a43;
+
+        background: linear-gradient(
+            135deg,
+            #ffc107,
+            #ffda44
+        );
+
+        box-shadow: 0 6px 15px rgba(255, 193, 7, 0.20);
+
+        transition: all 0.3s ease;
+    }
+
+    .btn-volley-yellow:hover {
+        color: #102a43;
+        transform: translateY(-2px);
+
+        box-shadow: 0 9px 20px rgba(255, 193, 7, 0.28);
+    }
+
+
+    /* ================================
+       DARK MODE
+    ================================= */
+
+    [data-bs-theme="dark"] .pengembalian-wrapper {
+        background: linear-gradient(
+            135deg,
+            var(--bs-body-bg),
+            #172033
+        );
+    }
+
+    [data-bs-theme="dark"] .pengembalian-form {
+        background: rgba(255, 255, 255, 0.04);
+
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    }
+
+    [data-bs-theme="dark"] .pengembalian-wrapper::before {
+        background: rgba(13, 110, 253, 0.12);
+    }
+
+    [data-bs-theme="dark"] .pengembalian-wrapper::after {
+        background: rgba(255, 193, 7, 0.08);
+    }
+
+
+    /* ================================
+       MOBILE
+    ================================= */
+
+    @media (max-width: 768px) {
+        .pengembalian-wrapper {
+            padding: 30px 15px;
+            min-height: 70vh;
+        }
+
+        .pengembalian-form {
+            padding: 25px 20px;
+        }
+
+        .pengembalian-title {
+            font-size: 1.8rem;
+        }
+
+        .pengembalian-form .input-group-text {
+            padding: 12px 10px;
+        }
+
+        .btn-volley,
+        .btn-volley-yellow {
+            padding: 10px 16px;
+        }
+    }
+</style>
+
+
+<div class="container py-3 py-lg-4">
+
+    <section class="pengembalian-wrapper">
+
+        <div class="pengembalian-content">
+
+            {{-- HEADER --}}
+            <div class="pengembalian-header">
+
+                <span class="pengembalian-badge">
+                    ↩️ DATA PENGEMBALIAN ALAT OLAHRAGA
+                </span>
+
+                <h1 class="display-6 pengembalian-title">
+                    Edit <span>Pengembalian</span>
+                </h1>
+
+                <div class="pengembalian-line"></div>
+
+                <p class="pengembalian-description">
+                    Perbarui informasi peminjaman, tanggal pengembalian,
+                    keterlambatan, denda, dan kondisi barang.
+                </p>
+
+            </div>
+
+
+            {{-- FORM --}}
+            <form
+                action="{{ route('pengembalian.update', ['id_pengembalian' => $data->id_pengembalian]) }}"
+                method="POST"
+                class="pengembalian-form"
+            >
+
+                @csrf
+                @method('PUT')
+
+
+                {{-- PEMINJAMAN --}}
+                <div class="mb-4">
+
+                    <label for="id_peminjaman">
+                        Peminjaman
+                    </label>
+
+                    <select
+                        name="id_peminjaman"
+                        id="id_peminjaman"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            -- Pilih Peminjaman --
+                        </option>
+
+                        @foreach($peminjaman as $item)
+
+                            <option
+                                value="{{ $item->id_peminjaman }}"
+                                {{ old('id_peminjaman', $data->id_peminjaman) == $item->id_peminjaman ? 'selected' : '' }}
+                            >
+                                #{{ $item->id_peminjaman }}
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                    @error('id_peminjaman')
+                        <small class="text-danger d-block mt-2">
+                            {{ $message }}
+                        </small>
+                    @enderror
+
+                </div>
+
+
+                {{-- TANGGAL PENGEMBALIAN --}}
+                <div class="mb-4">
+
+                    <label for="tanggal_pengembalian">
+                        Tanggal Pengembalian
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        name="tanggal_pengembalian"
+                        id="tanggal_pengembalian"
+                        class="form-control"
+                        value="{{ old('tanggal_pengembalian', $data->tanggal_pengembalian ? date('Y-m-d\TH:i', strtotime($data->tanggal_pengembalian)) : '') }}"
+                        required
+                    >
+
+                    @error('tanggal_pengembalian')
+                        <small class="text-danger d-block mt-2">
+                            {{ $message }}
+                        </small>
+                    @enderror
+
+                </div>
+
+
+                {{-- KETERLAMBATAN --}}
+                <div class="row">
+
+                    <div class="col-md-6 mb-4">
+
+                        <label for="terlambat_hari">
+                            Keterlambatan
+                        </label>
+
+                        <div class="input-group">
+
+                            <input
+                                type="number"
+                                name="terlambat_hari"
+                                id="terlambat_hari"
+                                class="form-control"
+                                value="{{ old('terlambat_hari', $data->terlambat_hari ?? 0) }}"
+                                min="0"
+                                required
+                            >
+
+                            <span class="input-group-text">
+                                Hari
+                            </span>
+
+                        </div>
+
+                        @error('terlambat_hari')
+                            <small class="text-danger d-block mt-2">
+                                {{ $message }}
+                            </small>
+                        @enderror
+
+                    </div>
+
+
+                    {{-- DENDA --}}
+                    <div class="col-md-6 mb-4">
+
+                        <label for="denda">
+                            Denda
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                Rp
+                            </span>
+
+                            <input
+                                type="number"
+                                name="denda"
+                                id="denda"
+                                class="form-control"
+                                value="{{ old('denda', $data->denda ?? 0) }}"
+                                min="0"
+                                required
+                            >
+
+                        </div>
+
+                        @error('denda')
+                            <small class="text-danger d-block mt-2">
+                                {{ $message }}
+                            </small>
+                        @enderror
+
+                    </div>
+
+                </div>
+
+
+                {{-- KONDISI BARANG --}}
+                <div class="mb-4">
+
+                    <label for="kondisi_barang">
+                        Kondisi Barang
+                    </label>
+
+                    <select
+                        name="kondisi_barang"
+                        id="kondisi_barang"
+                        class="form-select"
+                        required
+                    >
+
+                        <option
+                            value="Baik"
+                            {{ old('kondisi_barang', $data->kondisi_barang ?? '') == 'Baik' ? 'selected' : '' }}
+                        >
+                            Baik
+                        </option>
+
+                        <option
+                            value="Rusak Ringan"
+                            {{ old('kondisi_barang', $data->kondisi_barang ?? '') == 'Rusak Ringan' ? 'selected' : '' }}
+                        >
+                            Rusak Ringan
+                        </option>
+
+                        <option
+                            value="Rusak Berat"
+                            {{ old('kondisi_barang', $data->kondisi_barang ?? '') == 'Rusak Berat' ? 'selected' : '' }}
+                        >
+                            Rusak Berat
+                        </option>
+
+                    </select>
+
+                    @error('kondisi_barang')
+                        <small class="text-danger d-block mt-2">
+                            {{ $message }}
+                        </small>
+                    @enderror
+
+                </div>
+
+
+                {{-- CATATAN --}}
+                <div class="mb-4">
+
+                    <label for="catatan">
+                        Catatan
+                        <span class="text-body-secondary fw-normal">
+                            (Opsional)
+                        </span>
+                    </label>
+
+                    <textarea
+                        name="catatan"
+                        id="catatan"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Tambahkan catatan jika diperlukan..."
+                    >{{ old('catatan', $data->catatan ?? '') }}</textarea>
+
+                    @error('catatan')
+                        <small class="text-danger d-block mt-2">
+                            {{ $message }}
+                        </small>
+                    @enderror
+
+                </div>
+
+
+                {{-- TOMBOL AKSI --}}
+                <div class="d-flex flex-wrap gap-2 pt-3">
+
+                    <button
+                        type="submit"
+                        class="btn btn-volley px-4 py-2"
+                    >
+                        💾 Simpan Perubahan
+                    </button>
+
+                    <a
+                        href="{{ route('pengembalian.index') }}"
+                        class="btn btn-volley-yellow px-4 py-2"
+                    >
+                        ↩ Kembali
+                    </a>
+
+                </div>
+
+            </form>
 
         </div>
 
-    </div>
-
-
-    {{-- Form --}}
-    <div class="card-body p-4">
-
-        <form action="{{ route('pengembalian.update', ['id_pengembalian' => $data->id_pengembalian]) }}"
-              method="POST">
-
-            @csrf
-            @method('PUT')
-
-
-            {{-- Peminjaman --}}
-            <div class="mb-4">
-
-                <label for="id_peminjaman" class="form-label fw-semibold">
-                    Peminjaman
-                </label>
-
-                <select name="id_peminjaman"
-                        id="id_peminjaman"
-                        class="form-select rounded-3"
-                        required>
-
-                    <option value="">
-                        -- Pilih Peminjaman --
-                    </option>
-
-                    @foreach($peminjaman as $item)
-
-                        <option value="{{ $item->id_peminjaman }}"
-                            {{ $data->id_peminjaman == $item->id_peminjaman ? 'selected' : '' }}>
-
-                            #{{ $item->id_peminjaman }}
-
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
-
-
-            {{-- Tanggal Pengembalian --}}
-            <div class="mb-4">
-
-                <label for="tanggal_pengembalian" class="form-label fw-semibold">
-                    Tanggal Pengembalian
-                </label>
-
-                <input type="datetime-local"
-                       name="tanggal_pengembalian"
-                       id="tanggal_pengembalian"
-                       class="form-control rounded-3"
-                       value="{{ date('Y-m-d\TH:i', strtotime($data->tanggal_pengembalian)) }}"
-                       required>
-
-            </div>
-
-
-            {{-- Grid --}}
-            <div class="row">
-
-
-                {{-- Terlambat --}}
-                <div class="col-md-6 mb-4">
-
-                    <label for="terlambat_hari" class="form-label fw-semibold">
-                        Keterlambatan
-                    </label>
-
-                    <div class="input-group">
-
-                        <input type="number"
-                               name="terlambat_hari"
-                               id="terlambat_hari"
-                               class="form-control rounded-start-3"
-                               value="{{ $data->terlambat_hari ?? 0 }}"
-                               min="0"
-                               required>
-
-                        <span class="input-group-text rounded-end-3">
-                            Hari
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                {{-- Denda --}}
-                <div class="col-md-6 mb-4">
-
-                    <label for="denda" class="form-label fw-semibold">
-                        Denda
-                    </label>
-
-                    <div class="input-group">
-
-                        <span class="input-group-text rounded-start-3">
-                            Rp
-                        </span>
-
-                        <input type="number"
-                               name="denda"
-                               id="denda"
-                               class="form-control rounded-end-3"
-                               value="{{ $data->denda ?? 0 }}"
-                               min="0"
-                               required>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            {{-- Kondisi Barang --}}
-            <div class="mb-4">
-
-                <label for="kondisi_barang" class="form-label fw-semibold">
-                    Kondisi Barang
-                </label>
-
-                <select name="kondisi_barang"
-                        id="kondisi_barang"
-                        class="form-select rounded-3"
-                        required>
-
-                    <option value="Baik"
-                        {{ ($data->kondisi_barang ?? '') == 'Baik' ? 'selected' : '' }}>
-                        Baik
-                    </option>
-
-                    <option value="Rusak Ringan"
-                        {{ ($data->kondisi_barang ?? '') == 'Rusak Ringan' ? 'selected' : '' }}>
-                        Rusak Ringan
-                    </option>
-
-                    <option value="Rusak Berat"
-                        {{ ($data->kondisi_barang ?? '') == 'Rusak Berat' ? 'selected' : '' }}>
-                        Rusak Berat
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            {{-- Catatan --}}
-            <div class="mb-4">
-
-                <label for="catatan" class="form-label fw-semibold">
-                    Catatan
-                </label>
-
-                <textarea name="catatan"
-                          id="catatan"
-                          rows="4"
-                          class="form-control rounded-3"
-                          placeholder="Tambahkan catatan jika diperlukan...">{{ $data->catatan ?? '' }}</textarea>
-
-            </div>
-
-
-            {{-- Tombol --}}
-            <div class="d-flex flex-wrap gap-2 pt-2">
-
-                <button type="submit"
-                        class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
-
-                    <i class="bi bi-check-circle me-1"></i>
-
-                    Simpan Perubahan
-
-                </button>
-
-
-                <a href="{{ route('pengembalian.index') }}"
-                   class="btn btn-secondary px-4 py-2 rounded-3 fw-semibold">
-
-                    <i class="bi bi-arrow-left me-1"></i>
-
-                    Kembali
-
-                </a>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
+    </section>
 
 </div>
 
 @endsection
+```

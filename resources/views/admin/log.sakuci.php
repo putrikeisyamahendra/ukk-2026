@@ -32,15 +32,39 @@ html:has(.lg-page), html:has(.lg-page) body { overflow: hidden; }
 
 /* CARD HEADER */
 .lg-head-card {
-    padding: 28px 30px; margin-bottom: 20px; border-radius: 24px;
-    background: var(--bs-body-bg);
+    position: relative;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--bs-body-bg), var(--bs-secondary-bg));
     border: 1px solid var(--bs-border-color);
     box-shadow: 0 12px 35px rgba(0,0,0,.08);
-    position: relative; overflow: hidden;
+    overflow: hidden;
+}
+.lg-head-card::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(13,110,253,.08);
+    bottom: -190px;
+    left: 35%;
+    pointer-events: none;
 }
 .lg-head-card::after {
-    content: ""; position: absolute; width: 260px; height: 260px; border-radius: 50%;
-    background: rgba(255,193,7,.10); top: -130px; right: -80px; pointer-events: none;
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255,193,7,.12);
+    top: -130px;
+    right: -80px;
+    pointer-events: none;
 }
 .lg-head-inner { position: relative; z-index: 2; }
 
@@ -158,7 +182,7 @@ html:has(.lg-page), html:has(.lg-page) body { overflow: hidden; }
 @media (max-width: 991px) { .lg-page, :root:has(#sidebarToggle:checked) .lg-page { left: 0; } }
 @media (max-width: 768px) {
     .lg-content { padding: 80px 15px 30px; }
-    .lg-head-card { padding: 22px 18px; }
+    .lg-head-card { min-height: 250px; padding: 22px 18px; }
     .volleyball { display: none; }
 }
 </style>
